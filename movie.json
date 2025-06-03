@@ -1,0 +1,50 @@
+[
+  {
+    "title": "The Lion King",
+    "release_date": "1994-06-24",
+    "genre": "Animation"
+  },
+  { "title": "Frozen", "release_date": "2013-11-27", "genre": "Animation" },
+  {
+    "title": "Beauty and the Beast",
+    "release_date": "1991-11-22",
+    "genre": "Animation"
+  },
+  { "title": "Aladdin", "release_date": "1992-11-25", "genre": "Animation" },
+  { "title": "Toy Story", "release_date": "1995-11-22", "genre": "Animation" },
+  { "title": "Moana", "release_date": "2016-11-23", "genre": "Animation" },
+  { "title": "Zootopia", "release_date": "2016-03-04", "genre": "Animation" },
+  { "title": "Mulan", "release_date": "1998-06-19", "genre": "Animation" },
+  {
+    "title": "Finding Nemo",
+    "release_date": "2003-05-30",
+    "genre": "Animation"
+  },
+  { "title": "Tangled", "release_date": "2010-11-24", "genre": "Animation" },
+  { "title": "Coco", "release_date": "2017-11-22", "genre": "Animation" },
+  { "title": "Big Hero 6", "release_date": "2014-11-07", "genre": "Animation" },
+  {
+    "title": "Ratatouille",
+    "release_date": "2007-06-29",
+    "genre": "Animation"
+  },
+  { "title": "Up", "release_date": "2009-05-29", "genre": "Animation" },
+  {
+    "title": "Wreck-It Ralph",
+    "release_date": "2012-11-02",
+    "genre": "Animation"
+  },
+  {
+    "title": "The Incredibles",
+    "release_date": "2004-11-05",
+    "genre": "Animation"
+  },
+  { "title": "Inside Out", "release_date": "2015-06-19", "genre": "Animation" },
+  { "title": "Encanto", "release_date": "2021-11-24", "genre": "Animation" },
+  {
+    "title": "Turning Red",
+    "release_date": "2022-03-11",
+    "genre": "Animation"
+  },
+  { "title": "Brave", "release_date": "2012-06-22", "genre": "Animation" }
+]

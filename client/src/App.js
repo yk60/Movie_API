@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom'; import './App.css';
+import { Router, Routes, Route } from 'react-router-dom'; import './App.css';
 import Movie from './components/Movie';
 import MovieDetail from './components/Movie_detail';
 import Home from './components/Home';
+import Profile from './components/Profile';
+import Navbar from './components/Navbar';
+import { useNavigate } from 'react-router-dom';
+
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
+  const [users, setUsers] = useState([]) // all users
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:3000/movie/')
@@ -13,16 +19,22 @@ function App() {
       .catch(err => console.error(err));
   }, []);
 
+  const handleHomeClick = () => {
+    navigate('/');
+  }
+
   return (
 
     <div className="App">
-      <h1>Movies</h1>
+      <h1 onClick={handleHomeClick}>Welcome to Movies API</h1>
+
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home /> } />
+        <Route path="/" element={<Home />} />
         <Route
           path="/movie"
           element={
-            <>
+            <div className='movie-list'>
               {movies.map(movie => (
                 <Movie
                   key={movie._id}
@@ -32,11 +44,15 @@ function App() {
                   release_date={movie.release_date}
                 />
               ))}
-            </>
+            </div>
           }
         />
         <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route
+          path="/profile"
+          element={<Profile />} />
       </Routes>
+
 
     </div>
 

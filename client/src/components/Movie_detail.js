@@ -10,12 +10,12 @@ function Movie_detail() {
             .then(res => res.json())
             .then(data => setMovie(data))
             .catch(err => console.error(err));
-    }, [id]);
+    }, [id]); // runs once or whenever id changes
 
     if (!movie) return <div>Loading...</div>;
 
     return (
-        <div>
+        <div className="movie-card">
             <h1>{movie.title}</h1>
             <p><strong>Genre:</strong> {movie.genre}</p>
             <p><strong>Release Date:</strong> {movie.release_date ? new Date(movie.release_date).toLocaleDateString() : ''}</p>

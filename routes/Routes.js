@@ -11,10 +11,10 @@ const {
 } = require('../controllers/Controller');
 
 // Define routes and connect to controller functions
-router.post('/', createMovie);
-router.get('/:id', getMovie);
-router.get('/', getAllMovies);
-router.put('/:id', updateMovie);
-router.delete('/:id', deleteMovie);
+router.post('/movie/', createMovie);
+router.get('/movie/', getAllMovies);
+router.get('/movie/:id', getMovie);
+router.put('/movie/:id', updateMovie);
+router.delete('/movie/:id', deleteMovie);
 
 module.exports = router;

@@ -24,7 +24,7 @@ const getMovie = async (req, res) => {
 const getAllMovies = async (req, res) => {
     try {
         const movies = await Movie.find();
-        console.log(movies);
+        // console.log(movies);
         res.status(200).json(movies);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -34,7 +34,7 @@ const getAllMovies = async (req, res) => {
 const updateMovie = async (req, res) => {
     try {
         const { id } = req.params;
-        const movie = Movie.findByIdAndUpdate(id, req.body);
+        const movie = await Movie.findByIdAndUpdate(id, req.body, { new: true });
         if (!movie) {
             return res.status(404).json({ error: 'Movie not found' });
         }
@@ -47,7 +47,8 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
     try {
-        const movie = Movie.findByIdAndDelete(id, req.body);
+         const { id } = req.params;
+        const movie = await Movie.findByIdAndDelete(id);
         if (!movie) {
             return res.status(404).json({ error: 'Movie not found' });
         }

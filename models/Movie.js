@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const movieSchema = new mongoose.Schema({
     title: String,
     release_date: Date,
-    genre: String
+    genre: String,
+    description: String
 });
 
 // create collections

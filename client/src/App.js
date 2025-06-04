@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 import Movie from "./components/Movie";
-import MovieDetail from "./components/Movie_detail";
+import MovieDetail from "./components/MovieDetail";
+import MovieForm from "./components/MovieForm";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
-import { useNavigate } from "react-router-dom";
 
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
@@ -45,6 +46,7 @@ function App() {
 
       <Navbar />
       <Searchbar handleMovieSearch={handleMovieSearch} />
+      <button>Add Movie</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -67,6 +69,7 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      <MovieForm />
     </div>
   );
 }

@@ -11,7 +11,6 @@ function Searchbar(props) {
       try {
         // use the received handler function to update searchQuery in the parent component
         props.handleMovieSearch(searchQuery);
-        setsearchQuery(""); // reset input field after submit
       } catch (err) {
         console.error(err);
       }

@@ -17,5 +17,6 @@ router.get("/movie/", deleteAllMovies);
 router.get("/movie/:id", getMovie);
 router.put("/movie/:id", updateMovie);
 router.delete("/movie/:id", deleteMovie);
+// router.update("/movie/:id/edit", updateMovie)
 
 module.exports = router;

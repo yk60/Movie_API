@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useToggle } from "../useToggle";
 
 function Searchbar(props) {
   const [searchQuery, setsearchQuery] = useState("");
+  const [showAdvSearch, toggle] = useToggle(false);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -24,6 +26,9 @@ function Searchbar(props) {
         onChange={(e) => setsearchQuery(e.target.value)}
         onKeyUp={handleEnterPress}
       />
+      <button onClick={toggle}>Advanced search</button>
+      <br />
+      {showAdvSearch && <input type="text" placeholder="Enter genre"></input>}
     </div>
   );
 }

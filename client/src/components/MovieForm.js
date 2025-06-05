@@ -22,7 +22,7 @@ function MovieForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title: "Learn React" }),
+      body: JSON.stringify(formData),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
@@ -59,6 +59,7 @@ function MovieForm() {
           placeholder="Enter movie description:"
           onChange={handleChange}
         ></input>
+        <button type="submit">Submit</button>
       </form>
       <p>{formData.title}</p>
       <p>{formData.genre}</p>

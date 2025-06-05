@@ -9,12 +9,14 @@ import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
+import { useToggle } from "./useToggle";
 
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
   const [searchQuery, setsearchQuery] = useState("");
   const [users, setUsers] = useState([]); // all users
   const navigate = useNavigate();
+  const [showForm, toggle] = useToggle(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/movie/")
@@ -46,30 +48,37 @@ function App() {
 
       <Navbar />
       <Searchbar handleMovieSearch={handleMovieSearch} />
-      <button>Add Movie</button>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
           path="/movie"
           // if user is searching, display the search result. Else, display all
           element={
-            <div className="movie-list">
-              {selected_movies.map((movie) => (
-                <Movie
-                  key={movie._id}
-                  _id={movie._id}
-                  title={movie.title}
-                  genre={movie.genre}
-                  release_date={movie.release_date}
-                />
-              ))}
+            <div>
+              <div className="movie-list">
+                {selected_movies.map((movie) => (
+                  <Movie
+                    key={movie._id}
+                    _id={movie._id}
+                    title={movie.title}
+                    genre={movie.genre}
+                    release_date={movie.release_date}
+                  />
+                ))}
+              </div>
+              <div>
+                {/* Create movie form */}
+                <button onClick={toggle}>
+                  {showForm ? "Hide Form" : "Show Form"}
+                </button>
+                {showForm && <MovieForm />}
+              </div>
             </div>
           }
         />
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
-      <MovieForm />
     </div>
   );
 }

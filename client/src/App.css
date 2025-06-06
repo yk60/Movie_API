@@ -1,5 +1,12 @@
-.App {
+.App > h1 {
+  background: #6c63ff;
+  color: #fff;
+  margin: 0;
+  padding: 32px 0 16px 0;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
   text-align: center;
+  border-bottom: 2px solid #a58fc5;
 }
 
 body {
@@ -48,6 +55,33 @@ article {
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  background: #a58fc5;
+  padding: 12px 0;
+  border-bottom: 1px solid #d1c4e9;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 6px 18px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.navbar a:hover {
+  background: #6c63ff;
+}
+
+.searchbar-container {
 }
 
 .movie-list {

@@ -46,8 +46,10 @@ function App() {
     <div className="App">
       <h1 onClick={handleHomeClick}>Welcome to Movies API</h1>
 
-      <Navbar />
-      <Searchbar handleMovieSearch={handleMovieSearch} />
+      <Navbar>
+        <Searchbar handleMovieSearch={handleMovieSearch} />
+      </Navbar>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

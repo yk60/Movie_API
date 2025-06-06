@@ -1,6 +1,55 @@
 .App {
   text-align: center;
 }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f7f7fa;
+}
+
+.home-header {
+  background: #6c63ff;
+  color: #fff;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  width: 100vw;
+  left: 0;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  width: 100vw;
+  margin: 0;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 300px;
+}
+
+aside {
+  flex: 1;
+  background: #ece9f7;
+  border-right: 1px solid #ddd;
+  padding: 24px;
+  min-width: 120px;
+}
+
+main {
+  flex: 3;
+  padding: 32px;
+}
+
+article {
+  background: #f5f5fa;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
 .movie-list {
   display: flex;
   flex-wrap: wrap;
@@ -13,11 +62,50 @@
   border-radius: 8px;
   padding: 16px;
   margin: 8px 0;
-  max-width: 320px;
+  max-width: 400px;
   min-width: 220px;
   background: #a58fc5;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.2s;
+}
+.movie-card h2 {
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: #222;
+  margin: 0 0 8px 0;
+}
+
+.movie-card p {
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: #222;
+  margin: 4px 0;
+}
+
+.movie-property-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.inline-edit-input {
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: #222;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed #aaa;
+  outline: none;
+  width: 100%;
+  padding: 2px 4px;
+  margin: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.inline-edit-input:focus {
+  border-bottom: 1px solid #6c63ff;
+  background: #f5f5fa;
 }
 
 .movie-form {

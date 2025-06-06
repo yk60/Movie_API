@@ -12,27 +12,20 @@ function Movie({ _id, title, genre, release_date }) {
     toast("button clicked!");
   };
   return (
-    <div
-      className="movie-card"
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "16px",
-        margin: "8px 0",
-        maxWidth: "400px",
-      }}
-    >
+    <div className="movie-card">
       <div onClick={handleMovieClick}>
-        <h2 style={{ margin: "0 0 8px 0" }}>{title}</h2>
-        <p style={{ margin: "4px 0" }}>
-          <strong>Genre:</strong> {genre}
-        </p>
-        <p style={{ margin: "4px 0" }}>
-          <strong>Release Date:</strong>{" "}
-          {release_date ? new Date(release_date).toLocaleDateString() : ""}
-        </p>
+        <h2 className="movie-title">{title}</h2>
+        <div className="movie-property-row">
+          <strong>Genre:</strong>
+          <span>{genre}</span>
+        </div>
+        <div className="movie-property-row">
+          <strong>Release Date:</strong>
+          <span>
+            {release_date ? new Date(release_date).toLocaleDateString() : ""}
+          </span>
+        </div>
       </div>
-
       <button onClick={handleBtnClick}>Add to watchlist</button>
       <ToastContainer />
     </div>

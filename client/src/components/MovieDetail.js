@@ -5,8 +5,8 @@ import { useToggle } from "../useToggle";
 function Movie_detail() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
-  const [editMovie, toggle] = useToggle(false);
   const [draft, setDraft] = useState(null);
+  const [editMovie, toggle] = useToggle(false);
 
   useEffect(() => {
     fetch(`http://localhost:3000/movie/${id}`)
@@ -28,9 +28,11 @@ function Movie_detail() {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleEditReset = (e) => {
     setDraft(movie);
   };
+
   const handleEditSave = () => {
     fetch(`http://localhost:3000/movie/${id}`, {
       method: "PUT",
@@ -41,6 +43,7 @@ function Movie_detail() {
     })
       .then((res) => res.json())
       .then((data) => {
+        setDraft(data);
         setMovie(data);
         console.log(data);
       })
@@ -49,55 +52,81 @@ function Movie_detail() {
 
   return (
     <div>
+      <div className="movie-card">
+        <div className="movie-property-row">
+          <strong>Title:</strong>{" "}
+          {editMovie ? (
+            <input
+              className="inline-edit-input"
+              name="title"
+              type="String"
+              value={draft.title}
+              onChange={handleChange}
+            ></input>
+          ) : (
+            <h2>{movie.title}</h2>
+          )}
+        </div>
+
+        <div className="movie-property-row">
+          <strong>Genre:</strong>{" "}
+          {editMovie ? (
+            <input
+              className="inline-edit-input"
+              name="genre"
+              type="String"
+              value={draft.genre}
+              onChange={handleChange}
+            ></input>
+          ) : (
+            movie.genre
+          )}
+        </div>
+
+        <div className="movie-property-row">
+          <strong>Release Date:</strong>{" "}
+          {editMovie ? (
+            <input
+              className="inline-edit-input"
+              name="release_date"
+              type="String"
+              value={
+                draft.release_date
+                  ? new Date(draft.release_date).toLocaleDateString()
+                  : ""
+              }
+              onChange={handleChange}
+            ></input>
+          ) : movie.release_date ? (
+            new Date(movie.release_date).toLocaleDateString()
+          ) : (
+            ""
+          )}
+        </div>
+
+        <div className="movie-property-row">
+          <strong>Description:</strong>{" "}
+          {editMovie ? (
+            <input
+              className="inline-edit-input"
+              name="description"
+              type="String"
+              value={draft.description}
+              onChange={handleChange}
+            ></input>
+          ) : (
+            movie.description
+          )}
+        </div>
+      </div>
+
       <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
       {editMovie && (
         <div>
-          <input
-            name="title"
-            type="String"
-            value={draft.title}
-            onChange={handleChange}
-          ></input>
-          <input
-            name="genre"
-            type="String"
-            value={draft.genre}
-            onChange={handleChange}
-          ></input>
-          <input
-            name="release_date"
-            type="Date"
-            value={draft.release_date ? draft.release_date.slice(0, 10) : ""}
-            onChange={handleChange}
-          ></input>
-
-          <input
-            name="description"
-            type="String"
-            value={draft.description}
-            onChange={handleChange}
-          ></input>
-          <br />
           <button onClick={handleEditReset}>Reset</button>
           <button onClick={handleEditSave}>Save</button>
         </div>
       )}
-
-      <div className="movie-card">
-        <h1>{movie.title}</h1>
-        <p>
-          <strong>Genre:</strong> {movie.genre}
-        </p>
-        <p>
-          <strong>Release Date:</strong>{" "}
-          {movie.release_date
-            ? new Date(movie.release_date).toLocaleDateString()
-            : ""}
-        </p>
-        <p>
-          <strong>Description:</strong> {movie.description}
-        </p>
-      </div>
     </div>
   );
 }

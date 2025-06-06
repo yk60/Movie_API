@@ -31,7 +31,7 @@ function MovieForm() {
   return (
     <div>
       <h1>Add a movie</h1>
-      <form onSubmit={handleMovieAdd} class="movie-form">
+      <form onSubmit={handleMovieAdd} className="movie-form">
         <input
           name="title"
           type="String"

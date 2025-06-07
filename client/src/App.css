@@ -12,7 +12,69 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
-  background: #f7f7fa;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: [col1] 25% [col2] auto [col3] 25% [col4];
+  grid-template-rows: [row1] 25% [row2] auto [row3] 25%;
+  gap: 8px;
+  background: #f0f0f0;
+  padding: 16px;
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
+}
+
+.cell1 {
+  grid-column: col1 / col2;
+  grid-row: row1 / row2;
+  background: #ffadad;
+}
+.cell2 {
+  grid-column: col2 / col3;
+  grid-row: row1 / row4; /* Span all rows vertically */
+  background: #ffd6a5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 8px;
+  overflow-y: auto;
+}
+.cell3 {
+  grid-column: col3 / col4;
+  grid-row: row1 / row2;
+  background: #caffbf;
+}
+
+/*
+.cell4 {
+  grid-column: col1 / col2;
+  grid-row: row2 / row3;
+  background: #9bf6ff;
+}
+.content {
+  grid-column: col2 / col3;
+  grid-row: row2 / row3;
+  background: #d8dfdf;
+}
+.cell5 {
+  grid-column: col3 / col4;
+  grid-row: row2 / row3;
+  background: #9bf6ff;
+}
+*/
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  font-weight: bold;
+  border-radius: 6px;
+
+  border: 1px solid #ccc;
 }
 
 .home-header {
@@ -27,7 +89,7 @@ body {
   position: relative;
 }
 
-.content {
+/* .content {
   display: flex;
   width: 100vw;
   margin: 0;
@@ -35,7 +97,7 @@ body {
   border-radius: 0;
   box-shadow: none;
   min-height: 300px;
-}
+} */
 
 aside {
   flex: 1;
@@ -93,13 +155,15 @@ article {
 }
 .movie-card {
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px 0;
-  max-width: 400px;
+  padding: 0 0 16px 0;
+  margin: 16px;
+  max-width: 300px;
   min-width: 220px;
   background: #a58fc5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: box-shadow 0.2s;
 }
 .movie-card h2 {
@@ -116,11 +180,44 @@ article {
   margin: 4px 0;
 }
 
+.movie-poster-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #fff;
+  overflow: hidden;
+}
+
+.movie-poster {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border-bottom: 1px solid #eee;
+}
+
+.movie-info {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.movie-title {
+  margin: 0 0 8px 0;
+  font-size: 1.3rem;
+  color: #222;
+}
+
 .movie-property-row {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
 .inline-edit-input {

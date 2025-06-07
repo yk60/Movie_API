@@ -56,19 +56,23 @@ function App() {
           path="/movie"
           // if user is searching, display the search result. Else, display all
           element={
-            <div>
-              <div className="movie-list">
-                {selected_movies.map((movie) => (
-                  <Movie
-                    key={movie._id}
-                    _id={movie._id}
-                    title={movie.title}
-                    genre={movie.genre}
-                    release_date={movie.release_date}
-                  />
-                ))}
+            <div className="container">
+              <div className="cell2">
+                <div className="movie-list">
+                  {selected_movies.map((movie) => (
+                    <Movie
+                      key={movie._id}
+                      _id={movie._id}
+                      title={movie.title}
+                      genre={movie.genre}
+                      release_date={movie.release_date}
+                      poster_path={movie.poster_path}
+                    />
+                  ))}
+                </div>
               </div>
-              <div>
+
+              <div className="cell1">
                 {/* Create movie form */}
                 <button onClick={toggle}>
                   {showForm ? "Hide Form" : "Show Form"}

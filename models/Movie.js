@@ -1,17 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // each movie document will have this schema
 const movieSchema = new mongoose.Schema({
-    title: String,
-    release_date: Date,
-    genre: String,
-    description: String
+  title: String,
+  release_date: Date,
+  genre: String,
+  description: String,
+  poster_path: String,
 });
 
 // create collections
-const Movie = mongoose.model('Movie', movieSchema);
+const Movie = mongoose.model("Movie", movieSchema);
 
 module.exports = {
-    Movie,
-    movieSchema
-}
+  Movie,
+  movieSchema,
+};

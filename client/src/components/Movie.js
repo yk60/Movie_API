@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Movie({ _id, title, genre, release_date }) {
+function Movie({ _id, title, genre, release_date, poster_path }) {
   const navigate = useNavigate();
   const handleMovieClick = () => {
     navigate(`/movie/${_id}`);
@@ -14,7 +14,17 @@ function Movie({ _id, title, genre, release_date }) {
   return (
     <div className="movie-card">
       <div onClick={handleMovieClick}>
+        <div className="movie-poster-container" onClick={handleMovieClick}>
+          {poster_path && (
+            <img
+              className="movie-poster"
+              src={poster_path}
+              alt="Movie Poster"
+            />
+          )}
+        </div>
         <h2 className="movie-title">{title}</h2>
+
         <div className="movie-property-row">
           <strong>Genre:</strong>
           <span>{genre}</span>

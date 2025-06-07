@@ -9,6 +9,7 @@ const {
   deleteMovie,
   deleteAllMovies,
 } = require("../controllers/Controller");
+const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 
 // Define routes and connect to controller functions
 router.post("/movie/", createMovie);
@@ -17,6 +18,8 @@ router.get("/movie/", deleteAllMovies);
 router.get("/movie/:id", getMovie);
 router.put("/movie/:id", updateMovie);
 router.delete("/movie/:id", deleteMovie);
+
+router.get("/fetch-movies", fetchAndSaveMovies);
 // router.update("/movie/:id/edit", updateMovie)
 
 module.exports = router;

@@ -50,6 +50,15 @@ function Movie_detail() {
       .catch((err) => console.error(err));
   };
 
+  const handleDeleteMovie = () => {
+    fetch(`http://localhost:3000/movie/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div>
       <div className="movie-card">
@@ -127,6 +136,8 @@ function Movie_detail() {
           <button onClick={handleEditSave}>Save</button>
         </div>
       )}
+
+      <button onClick={handleDeleteMovie}>Delete Movie</button>
     </div>
   );
 }

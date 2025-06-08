@@ -124,6 +124,7 @@ body {
   margin: 4px;
   max-width: 300px;
   min-width: 220px;
+  width: 100%;
   background: #fff;
   box-shadow: 0 2px 8px rgba(108, 99, 255, 0.06);
   display: flex;
@@ -165,6 +166,7 @@ body {
 .movie-poster {
   width: 100%;
   max-width: 220px;
+  height: 300px;
   aspect-ratio: 3/4;
   object-fit: cover;
   display: block;
@@ -180,18 +182,22 @@ body {
 }
 
 .movie-title {
-  margin: 0 0 8px 0;
-  font-size: 1.3rem;
-  text-align: center;
-  color: #222;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .movie-property-row {
-  display: flex;
+  display: block;
+  width: 90%;
   justify-content: center;
   align-items: center;
   gap: 8px;
   margin: 8px 0;
+  flex-wrap: wrap;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .inline-edit-input {

@@ -4,8 +4,9 @@ function MovieForm() {
   const [formData, setFormData] = useState({
     title: "",
     release_date: "",
-    genre: "",
+    genre: [String],
     description: "",
+    poster_path: "",
   });
 
   // update specific field value from formdata, keeping everything else the same
@@ -15,6 +16,26 @@ function MovieForm() {
       [e.target.name]: e.target.value,
     });
   };
+
+  // update fields with multi select opiton
+  const handleChangeMultiple = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: Array.from(
+        e.target.selectedOptions,
+        (option) => option.text
+      ),
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // store the File object
+    setFormData({
+      ...formData,
+      [e.target.name]: file ? file.name : "",
+    });
+  };
+
   // add new movie to database by making a POST request
   const handleMovieAdd = () => {
     fetch("http://localhost:3000/movie/", {
@@ -46,23 +67,39 @@ function MovieForm() {
           required
           onChange={handleChange}
         ></input>
-        <input
+
+        <label for="genres">Select a genre:</label>
+        <select
+          id="genres"
           name="genre"
-          type="String"
-          placeholder="Enter movie genre:"
+          size="4"
+          multiple
+          onChange={handleChangeMultiple}
           required
-          onChange={handleChange}
-        ></input>
+        >
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Animation">Animation</option>
+          <option value="Comedy">Comedy</option>
+        </select>
+
         <input
           name="description"
           type="String"
           placeholder="Enter movie description:"
           onChange={handleChange}
         ></input>
+        <input
+          name="poster_path"
+          type="file"
+          id="myFile"
+          onChange={handleFileChange}
+        ></input>
         <button type="submit">Submit</button>
       </form>
       <p>{formData.title}</p>
       <p>{formData.genre}</p>
+      <p>{formData.poster_path}</p>
     </div>
   );
 }

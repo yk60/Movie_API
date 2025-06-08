@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Movie({ _id, title, genre, release_date, poster_path }) {
   const navigate = useNavigate();
+  const movie_placeholder = "/movie_placeholder.jpg";
+
   const handleMovieClick = () => {
     navigate(`/movie/${_id}`);
   };
@@ -15,15 +17,21 @@ function Movie({ _id, title, genre, release_date, poster_path }) {
     <div className="movie-card">
       <div onClick={handleMovieClick}>
         <div className="movie-poster-container" onClick={handleMovieClick}>
-          {poster_path && (
+          {poster_path ? (
             <img
               className="movie-poster"
               src={poster_path}
               alt="Movie Poster"
             />
+          ) : (
+            <img
+              className="movie-poster"
+              src={movie_placeholder}
+              alt="Movie Poster"
+            />
           )}
         </div>
-        <h2 className="movie-title">{title}</h2>
+        <h2 className="movie-property-row movie-title">{title}</h2>
 
         <div className="movie-property-row">
           <strong>Genre:</strong>

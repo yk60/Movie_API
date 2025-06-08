@@ -27,7 +27,11 @@ function Movie({ _id, title, genre, release_date, poster_path }) {
 
         <div className="movie-property-row">
           <strong>Genre:</strong>
-          <span>{genre}</span>
+          <span>
+            {genre && genre.length > 0
+              ? genre.map((g) => <span>{g} </span>)
+              : "N/A"}
+          </span>
         </div>
         <div className="movie-property-row">
           <strong>Release Date:</strong>

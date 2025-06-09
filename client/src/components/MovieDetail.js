@@ -60,84 +60,93 @@ function Movie_detail() {
   };
 
   return (
-    <div>
-      <div className="movie-card">
-        <div className="movie-property-row">
-          <strong>Title:</strong>{" "}
-          {editMovie ? (
-            <input
-              className="inline-edit-input"
-              name="title"
-              type="String"
-              value={draft.title}
-              onChange={handleChange}
-            ></input>
-          ) : (
-            <h2>{movie.title}</h2>
-          )}
-        </div>
-
-        <div className="movie-property-row">
-          <strong>Genre:</strong>{" "}
-          {editMovie ? (
-            <input
-              className="inline-edit-input"
-              name="genre"
-              type="String"
-              value={draft.genre}
-              onChange={handleChange}
-            ></input>
-          ) : (
-            movie.genre
-          )}
-        </div>
-
-        <div className="movie-property-row">
-          <strong>Release Date:</strong>{" "}
-          {editMovie ? (
-            <input
-              className="inline-edit-input"
-              name="release_date"
-              type="String"
-              value={
-                draft.release_date
-                  ? new Date(draft.release_date).toLocaleDateString()
-                  : ""
-              }
-              onChange={handleChange}
-            ></input>
-          ) : movie.release_date ? (
-            new Date(movie.release_date).toLocaleDateString()
-          ) : (
-            ""
-          )}
-        </div>
-
-        <div className="movie-property-row">
-          <strong>Description:</strong>{" "}
-          {editMovie ? (
-            <input
-              className="inline-edit-input"
-              name="description"
-              type="String"
-              value={draft.description}
-              onChange={handleChange}
-            ></input>
-          ) : (
-            movie.description
-          )}
-        </div>
-      </div>
-
-      <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
-      {editMovie && (
+    <div className="container">
+      <div className="cell2">
         <div>
-          <button onClick={handleEditReset}>Reset</button>
-          <button onClick={handleEditSave}>Save</button>
-        </div>
-      )}
+          <div>
+            <img
+              className="movie-detail-img"
+              src={movie.poster_path}
+              alt="Movie Poster"
+            />
+          </div>
+          <div className="movie-property-row">
+            <strong>Title:</strong>{" "}
+            {editMovie ? (
+              <input
+                className="inline-edit-input"
+                name="title"
+                type="String"
+                value={draft.title}
+                onChange={handleChange}
+              ></input>
+            ) : (
+              <h2>{movie.title}</h2>
+            )}
+          </div>
 
-      <button onClick={handleDeleteMovie}>Delete Movie</button>
+          <div className="movie-property-row">
+            <strong>Genre:</strong>{" "}
+            {editMovie ? (
+              <input
+                className="inline-edit-input"
+                name="genre"
+                type="String"
+                value={draft.genre}
+                onChange={handleChange}
+              ></input>
+            ) : (
+              movie.genre
+            )}
+          </div>
+
+          <div className="movie-property-row">
+            <strong>Release Date:</strong>{" "}
+            {editMovie ? (
+              <input
+                className="inline-edit-input"
+                name="release_date"
+                type="String"
+                value={
+                  draft.release_date
+                    ? new Date(draft.release_date).toLocaleDateString()
+                    : ""
+                }
+                onChange={handleChange}
+              ></input>
+            ) : movie.release_date ? (
+              new Date(movie.release_date).toLocaleDateString()
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="movie-property-row">
+            <strong>Description:</strong>{" "}
+            {editMovie ? (
+              <input
+                className="inline-edit-input"
+                name="description"
+                type="String"
+                value={draft.description}
+                onChange={handleChange}
+              ></input>
+            ) : (
+              movie.description
+            )}
+          </div>
+        </div>
+
+        <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
+        {editMovie && (
+          <div>
+            <button onClick={handleEditReset}>Reset</button>
+            <button onClick={handleEditSave}>Save</button>
+          </div>
+        )}
+
+        <button onClick={handleDeleteMovie}>Delete Movie</button>
+      </div>
     </div>
   );
 }

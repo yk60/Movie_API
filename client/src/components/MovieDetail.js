@@ -85,8 +85,7 @@ function Movie_detail(props) {
               alt="Movie Poster"
             />
           </div>
-          <div className="movie-property-row">
-            <strong>Title:</strong>{" "}
+          <div>
             {editMovie ? (
               <input
                 className="inline-edit-input"
@@ -98,9 +97,6 @@ function Movie_detail(props) {
             ) : (
               <h2>{movie.title}</h2>
             )}
-          </div>
-
-          <div className="movie-property-row">
             <strong>Genre:</strong>{" "}
             {editMovie ? (
               <input
@@ -113,9 +109,6 @@ function Movie_detail(props) {
             ) : (
               movie.genre
             )}
-          </div>
-
-          <div className="movie-property-row">
             <strong>Release Date:</strong>{" "}
             {editMovie ? (
               <input
@@ -134,10 +127,6 @@ function Movie_detail(props) {
             ) : (
               ""
             )}
-          </div>
-
-          <div className="movie-property-row">
-            <strong>Description:</strong>{" "}
             {editMovie ? (
               <input
                 className="inline-edit-input"

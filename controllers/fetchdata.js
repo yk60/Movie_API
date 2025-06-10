@@ -11,7 +11,7 @@ async function fetchAndSaveMovies(req, res) {
     const response = await axios.get(url);
     const genre_response = await axios.get(genre_url);
 
-    const movies = response.data.results.slice(0, 5); // get first 20 movies
+    const movies = response.data.results.slice(0, 20); // get first 20 movies
     const movieGenre = genre_response.data.genres; // get all movie genres (id, name)
 
     const genreMap = {};

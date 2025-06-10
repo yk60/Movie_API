@@ -16,39 +16,32 @@ function Movie({ _id, title, genre, release_date, poster_path }) {
   return (
     <div className="movie-card">
       <div onClick={handleMovieClick}>
-        <div className="movie-poster-container" onClick={handleMovieClick}>
-          {poster_path ? (
-            <img
-              className="movie-poster"
-              src={poster_path}
-              alt="Movie Poster"
-            />
-          ) : (
-            <img
-              className="movie-poster"
-              src={movie_placeholder}
-              alt="Movie Poster"
-            />
-          )}
-        </div>
-        <h2 className="movie-property-row movie-title">{title}</h2>
+        {poster_path ? (
+          <img className="movie-poster" src={poster_path} alt="Movie Poster" />
+        ) : (
+          <img
+            className="movie-poster"
+            src={movie_placeholder}
+            alt="Movie Poster"
+          />
+        )}
+      </div>
+      {/* wrap all remaining content except img */}
+      <div className="movie-property-row">
+        <h2 className="movie-title">{title}</h2>
 
-        <div className="movie-property-row">
-          <strong>Genre:</strong>
-          <span>
-            {genre && genre.length > 0
-              ? genre.map((g) => <span>{g} </span>)
-              : "N/A"}
-          </span>
+        <div className="movie-meta">
+          {genre && genre.length > 0
+            ? genre.map((g) => <span>{g} </span>)
+            : "N/A"}
         </div>
-        <div className="movie-property-row">
-          <strong>Release Date:</strong>
-          <span>
-            {release_date ? new Date(release_date).toLocaleDateString() : ""}
-          </span>
+
+        <div className="movie-meta">
+          {release_date ? new Date(release_date).toLocaleDateString() : ""}
         </div>
       </div>
-      <button onClick={handleBtnClick}>Add to watchlist</button>
+      {/* add to watchlist btn */}
+      <button onClick={handleBtnClick}>+</button>
       <ToastContainer />
     </div>
   );

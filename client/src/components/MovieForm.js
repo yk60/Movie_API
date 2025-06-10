@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 function MovieForm(props) {
   const navigate = useNavigate();
+  const movie_placeholder = "/movie_placeholder.jpg";
 
   const [formData, setFormData] = useState({
     title: "",
     release_date: "",
     genre: [String],
     description: "",
-    poster_path: "",
+    poster_path: movie_placeholder,
   });
 
   // update specific field value from formdata, keeping everything else the same
@@ -35,7 +36,7 @@ function MovieForm(props) {
     const file = e.target.files[0]; // store the File object
     setFormData({
       ...formData,
-      [e.target.name]: file ? file.name : "",
+      [e.target.name]: file ? file.name : movie_placeholder,
     });
   };
 

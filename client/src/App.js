@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import "./App.css";
 import Movie from "./components/Movie";
 import MovieDetail from "./components/MovieDetail";
@@ -11,13 +11,17 @@ import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
 import { useToggle } from "./useToggle";
 import Popup from "./components/Popup";
+import SearchResult from "./components/SearchResult";
+import MovieList from "./components/MovieList";
 
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
-  const [searchQuery, setsearchQuery] = useState("");
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
   const [popupMsg, setPopupMsg] = useState("");
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,33 +33,34 @@ function App() {
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
-    fetchMovies();
-  }, []);
-
   const handleHomeClick = () => {
     navigate("/");
   };
 
-  // setter function - pass to searchbar component as prop so that it can use it
-  const handleMovieSearch = (searchQuery) => {
-    setsearchQuery(searchQuery);
-  };
+  useEffect(() => {
+    fetchMovies();
+  }, []);
 
-  const selected_movies = !searchQuery
-    ? movies
-    : movies.filter(
-        (movie) =>
-          searchQuery &&
-          movie.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+  useEffect(() => {
+    if (location.pathname === "/movie") {
+      fetchMovies();
+    }
+  }, [location.pathname]);
+
+  // Any time user navigates to other pages out of /search, reset query
+  useEffect(() => {
+    if (location.pathname !== "/movie/search") {
+      searchParams.delete("query");
+      setSearchParams(searchParams);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="App">
       <h1 onClick={handleHomeClick}>Welcome to Movies API</h1>
 
       <Navbar>
-        <Searchbar handleMovieSearch={handleMovieSearch} />
+        <Searchbar />
       </Navbar>
 
       <Routes>
@@ -67,18 +72,7 @@ function App() {
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
-                <div className="movie-list">
-                  {selected_movies.map((movie) => (
-                    <Movie
-                      key={movie._id}
-                      _id={movie._id}
-                      title={movie.title}
-                      genre={movie.genre}
-                      release_date={movie.release_date}
-                      poster_path={movie.poster_path}
-                    />
-                  ))}
-                </div>
+                <MovieList movies={movies} />
               </div>
 
               <div className="cell1">
@@ -108,6 +102,8 @@ function App() {
             />
           }
         />
+        <Route path="/movie/search" element={<SearchResult />} />
+
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>

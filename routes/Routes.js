@@ -8,6 +8,7 @@ const {
   updateMovie,
   deleteMovie,
   deleteAllMovies,
+  searchMovies,
 } = require("../controllers/Controller");
 const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 
@@ -15,6 +16,7 @@ const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 router.post("/movie/", createMovie);
 router.get("/movie/", getAllMovies);
 router.get("/movie/", deleteAllMovies);
+router.get("/movie/search", searchMovies);
 router.get("/movie/:id", getMovie);
 router.put("/movie/:id", updateMovie);
 router.delete("/movie/:id", deleteMovie);

@@ -69,6 +69,22 @@ const deleteAllMovies = async (req, res) => {
   }
 };
 
+const searchMovies = async (req, res) => {
+  try {
+    const { query } = req.query;
+    let movies = [];
+    if (query) {
+      movies = await Movie.find({
+        title: { $regex: query, $options: "i" },
+      });
+    }
+    console.log(movies);
+    res.status(200).json(movies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   createMovie,
   getMovie,
@@ -76,4 +92,5 @@ module.exports = {
   updateMovie,
   deleteMovie,
   deleteAllMovies,
+  searchMovies,
 };

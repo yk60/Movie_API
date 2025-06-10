@@ -1,21 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
 
-function Searchbar(props) {
+function Searchbar() {
   const [searchQuery, setsearchQuery] = useState("");
   const [showAdvSearch, toggle] = useToggle(false);
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
-      // make GET request
-      try {
-        // use the received handler function to update searchQuery in the parent component
-        props.handleMovieSearch(searchQuery);
-      } catch (err) {
-        console.error(err);
-      }
+      navigate(`/movie/search?query=${encodeURIComponent(searchQuery)}`);
     }
   };
   return (

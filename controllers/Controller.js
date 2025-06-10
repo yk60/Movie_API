@@ -71,13 +71,18 @@ const deleteAllMovies = async (req, res) => {
 
 const searchMovies = async (req, res) => {
   try {
-    const { query } = req.query;
-    let movies = [];
+    const { query, genre } = req.query;
+    const filter = {}; // filter object
+
+    // find movie titles that contain the query
     if (query) {
-      movies = await Movie.find({
-        title: { $regex: query, $options: "i" },
-      });
+      filter.title = { $regex: query, $options: "i" };
     }
+    if (genre) {
+      filter.genre = { $regex: genre, $options: "i" };
+    }
+    const movies = await Movie.find(filter);
+
     console.log(movies);
     res.status(200).json(movies);
   } catch (err) {

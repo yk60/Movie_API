@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
 
 function Searchbar() {
-  const [searchQuery, setsearchQuery] = useState("");
+  const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, toggle] = useToggle(false);
+  const [genre, setGenre] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -12,7 +13,15 @@ function Searchbar() {
   };
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
-      navigate(`/movie/search?query=${encodeURIComponent(searchQuery)}`);
+      let url = `/movie/search?`;
+      if (query.trim()) {
+        url += `query=${encodeURIComponent(query)}&`;
+      }
+      if (genre.trim()) {
+        url += `genre=${encodeURIComponent(genre)}&`;
+      }
+      url = url.slice(0, -1);
+      navigate(url);
     }
   };
   return (
@@ -20,12 +29,19 @@ function Searchbar() {
       <input
         type="text"
         placeholder="Enter a movie title"
-        onChange={(e) => setsearchQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)}
         onKeyUp={handleEnterPress}
       />
       <button onClick={toggle}>Advanced search</button>
       <br />
-      {showAdvSearch && <input type="text" placeholder="Enter genre"></input>}
+      {showAdvSearch && (
+        <input
+          type="text"
+          placeholder="Enter genre"
+          onChange={(e) => setGenre(e.target.value)}
+          onKeyUp={handleEnterPress}
+        ></input>
+      )}
     </div>
   );
 }

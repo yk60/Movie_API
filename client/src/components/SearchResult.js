@@ -8,14 +8,21 @@ function SearchResult() {
   const [movies, setMovies] = useState([]); // filtered movies
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
+  const genre = searchParams.get("genre") || "";
 
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/movie/search?query=${encodeURIComponent(query)}`
-    )
+    let url = `http://localhost:3000/movie/search?`;
+    if (query) {
+      url += `query=${encodeURIComponent(query)}&`;
+    }
+    if (genre) {
+      url += `genre=${encodeURIComponent(genre)}&`;
+    }
+    url = url.slice(0, -1); // remove trailing &
+    fetch(url)
       .then((res) => res.json())
       .then((data) => setMovies(data));
-  }, [query]);
+  }, [query, genre]);
 
   return (
     <div className="container">

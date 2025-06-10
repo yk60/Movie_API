@@ -6,10 +6,11 @@ import MovieList from "./MovieList";
 
 function SearchResult() {
   const [movies, setMovies] = useState([]); // filtered movies
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   const genre = searchParams.get("genre") || "";
 
+  // build the url for API GET request
   useEffect(() => {
     let url = `http://localhost:3000/movie/search?`;
     if (query) {

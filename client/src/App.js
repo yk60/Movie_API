@@ -22,6 +22,7 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
+  const genre = searchParams.get("genre") || "";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,10 +48,11 @@ function App() {
     }
   }, [location.pathname]);
 
-  // Any time user navigates to other pages out of /search, reset query
+  // Any time user navigates to other pages out of /search, reset searchParams
   useEffect(() => {
     if (location.pathname !== "/movie/search") {
       searchParams.delete("query");
+      searchParams.delete("genre");
       setSearchParams(searchParams);
     }
   }, [location.pathname]);

@@ -1,18 +1,32 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useToggle } from "../useToggle";
 
 function Searchbar() {
   const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, toggle] = useToggle(false);
   const [genre, setGenre] = useState("");
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (location.pathname === "/movie") {
+      setQuery("");
+      setGenre("");
+    }
+  }, [location.pathname]);
+
+  // build the url for navigation
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
+      if (!query && !genre) {
+        return;
+      }
       let url = `/movie/search?`;
       if (query.trim()) {
         url += `query=${encodeURIComponent(query)}&`;
@@ -29,6 +43,7 @@ function Searchbar() {
       <input
         type="text"
         placeholder="Enter a movie title"
+        value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyUp={handleEnterPress}
       />
@@ -38,6 +53,7 @@ function Searchbar() {
         <input
           type="text"
           placeholder="Enter genre"
+          value={genre}
           onChange={(e) => setGenre(e.target.value)}
           onKeyUp={handleEnterPress}
         ></input>

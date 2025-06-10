@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Movie from "./components/Movie";
 import MovieDetail from "./components/MovieDetail";
@@ -10,19 +10,27 @@ import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
 import { useToggle } from "./useToggle";
+import Popup from "./components/Popup";
 
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
   const [searchQuery, setsearchQuery] = useState("");
   const [users, setUsers] = useState([]); // all users
-  const navigate = useNavigate();
   const [showForm, toggle] = useToggle(false);
+  const [popupMsg, setPopupMsg] = useState("");
 
-  useEffect(() => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const fetchMovies = () => {
     fetch("http://localhost:3000/movie/")
       .then((res) => res.json())
       .then((data) => setMovies(data))
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchMovies();
   }, []);
 
   const handleHomeClick = () => {
@@ -58,6 +66,7 @@ function App() {
           element={
             <div className="container">
               <div className="cell2">
+                <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
                 <div className="movie-list">
                   {selected_movies.map((movie) => (
                     <Movie
@@ -77,12 +86,28 @@ function App() {
                 <button onClick={toggle}>
                   {showForm ? "Hide Form" : "Show Form"}
                 </button>
-                {showForm && <MovieForm />}
+                {showForm && (
+                  <MovieForm
+                    popupMsg={popupMsg}
+                    setPopupMsg={setPopupMsg}
+                    fetchMovies={fetchMovies}
+                    toggle={toggle}
+                  />
+                )}
               </div>
             </div>
           }
         />
-        <Route path="/movie/:id" element={<MovieDetail />} />
+        <Route
+          path="/movie/:id"
+          element={
+            <MovieDetail
+              popupMsg={popupMsg}
+              setPopupMsg={setPopupMsg}
+              fetchMovies={fetchMovies}
+            />
+          }
+        />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>

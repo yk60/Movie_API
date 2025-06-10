@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function MovieForm() {
+function MovieForm(props) {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     release_date: "",
@@ -37,7 +40,8 @@ function MovieForm() {
   };
 
   // add new movie to database by making a POST request
-  const handleMovieAdd = () => {
+  const handleMovieAdd = (e) => {
+    e.preventDefault(); // prevents form data from getting appended to url
     fetch("http://localhost:3000/movie/", {
       method: "POST",
       headers: {
@@ -46,7 +50,14 @@ function MovieForm() {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        props.setPopupMsg("Added new movie");
+        props.fetchMovies();
+        navigate("/movie");
+
+        props.toggle();
+        console.log(data);
+      })
       .catch((err) => console.error(err));
   };
   return (

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useToggle } from "../useToggle";
 
-function Movie_detail() {
+import { useParams, useNavigate } from "react-router-dom";
+import { useToggle } from "../useToggle";
+import Popup from "./Popup";
+
+function Movie_detail(props) {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [draft, setDraft] = useState(null);
   const [editMovie, toggle] = useToggle(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:3000/movie/${id}`)
@@ -45,6 +49,9 @@ function Movie_detail() {
       .then((data) => {
         setDraft(data);
         setMovie(data);
+        toggle();
+        props.setPopupMsg("Saved changes");
+        props.fetchMovies();
         console.log(data);
       })
       .catch((err) => console.error(err));
@@ -55,13 +62,21 @@ function Movie_detail() {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setMovie(null); // reset the local states
+        setDraft(null);
+        props.fetchMovies();
+        navigate("/movie");
+        props.setPopupMsg("Deleted movie");
+        console.log(data);
+      })
       .catch((err) => console.error(err));
   };
 
   return (
     <div className="container">
       <div className="cell2">
+        <Popup message={props.popupMsg} onDone={() => props.setPopupMsg("")} />
         <div>
           <div>
             <img

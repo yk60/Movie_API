@@ -13,6 +13,7 @@ import { useToggle } from "./useToggle";
 import Popup from "./components/Popup";
 import SearchResult from "./components/SearchResult";
 import MovieList from "./components/MovieList";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const [movies, setMovies] = useState([]); // all movies in the db
@@ -107,6 +108,7 @@ function App() {
         <Route path="/movie/search" element={<SearchResult />} />
 
         <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

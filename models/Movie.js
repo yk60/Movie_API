@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 // each movie document will have this schema
 const movieSchema = new mongoose.Schema({
-  title: String,
-  release_date: Date,
-  genre: [String],
-  description: String,
-  poster_path: String,
+  title: { type: String, required: true },
+  release_date: { type: Date, required: true },
+  genre: { type: [String], required: true },
+  description: { type: String },
+  poster_path: { type: String },
 });
 
 // create collections

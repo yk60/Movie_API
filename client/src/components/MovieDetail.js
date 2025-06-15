@@ -77,7 +77,8 @@ function Movie_detail(props) {
     <div className="container">
       <div className="cell2">
         <Popup message={props.popupMsg} onDone={() => props.setPopupMsg("")} />
-        <div>
+        {/* wrapper for the entire content in page */}
+        <div className="movie-detail-container">
           <div>
             <img
               className="movie-detail-img"
@@ -85,7 +86,7 @@ function Movie_detail(props) {
               alt="Movie Poster"
             />
           </div>
-          <div>
+          <div className="movie-detail-info">
             {editMovie ? (
               <input
                 className="inline-edit-input"
@@ -107,7 +108,7 @@ function Movie_detail(props) {
                 onChange={handleChange}
               ></input>
             ) : (
-              movie.genre
+              <h2>{movie.genre}</h2>
             )}
             <strong>Release Date:</strong>{" "}
             {editMovie ? (
@@ -123,7 +124,7 @@ function Movie_detail(props) {
                 onChange={handleChange}
               ></input>
             ) : movie.release_date ? (
-              new Date(movie.release_date).toLocaleDateString()
+              <h2>{new Date(movie.release_date).toLocaleDateString()}</h2>
             ) : (
               ""
             )}
@@ -136,20 +137,22 @@ function Movie_detail(props) {
                 onChange={handleChange}
               ></input>
             ) : (
-              movie.description
+              <h2>{movie.description}</h2>
             )}
           </div>
-        </div>
 
-        <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
-        {editMovie && (
-          <div>
-            <button onClick={handleEditReset}>Reset</button>
-            <button onClick={handleEditSave}>Save</button>
+          <div className="movie-detail-btn">
+            <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
+            {editMovie && (
+              <div>
+                <button onClick={handleEditReset}>Reset</button>
+                <button onClick={handleEditSave}>Save</button>
+              </div>
+            )}
+
+            <button onClick={handleDeleteMovie}>Delete Movie</button>
           </div>
-        )}
-
-        <button onClick={handleDeleteMovie}>Delete Movie</button>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,56 @@
+/* poster container */
+.movie-card {
+  border: 1px solid #ece9f7;
+  width: 100%;
+  height: 460px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(108, 99, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.movie-card:hover {
+  transform: scale(0.9);
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+  border-color: #8c89c2;
+}
+
+.movie-poster {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #ece9f7;
+  background: #4b3bbd;
+}
+
+.movie-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #000000;
+}
+.movie-meta {
+  color: #000000;
+  font-size: clamp(0.7rem, 0.9rem, 0.9rem);
+}
+
+.movie-property-row {
+  width: 100%;
+  height: 100px;
+  margin: 16px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical centering */
+  align-items: center; /* horizontal centering */
+  text-align: center;
+  /* gap: 4px; */
+  /* padding: 4px 0; */
+  background: #bcbcbc;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  line-height: 1.1;
+}

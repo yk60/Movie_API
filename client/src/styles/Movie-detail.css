@@ -1,0 +1,71 @@
+.movie-detail-container {
+  width: 100%;
+  position: relative;
+  background: #8dbd3b;
+  min-height: 800px;
+}
+.movie-detail-card {
+}
+
+.movie-detail-poster {
+}
+
+.movie-detail-img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* .movie-detail-title {
+  position: absolute;
+  top: 0;
+  right: 0;
+} */
+
+.movie-detail-info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  gap: 8px;
+}
+
+.movie-detail-info > * {
+  position: static; /* ensure children are not absolutely positioned */
+  margin: 0;
+  text-align: right;
+}
+
+.movie-detail-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.movie-detail-info .movie-property-row {
+  /* width: 100%;
+  text-align: left;
+  margin: 0 0 16px 0;
+  word-break: break-word;
+  white-space: pre-line;
+  font-size: 1.1rem; */
+}
+
+.inline-edit-input {
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: #222;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed #b39ddb;
+  outline: none;
+  width: 100%;
+  padding: 2px 4px;
+  margin: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.inline-edit-input:focus {
+  border-bottom: 1px solid #6c63ff;
+  background: #f5f5fa;
+}

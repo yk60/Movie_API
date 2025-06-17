@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToggle } from "../useToggle";
+import Advsearch from "./Advsearch";
 
 function Searchbar() {
   const [query, setQuery] = useState(""); // input in main searchbar
@@ -50,13 +51,11 @@ function Searchbar() {
       <button onClick={toggle}>Advanced search</button>
       <br />
       {showAdvSearch && (
-        <input
-          type="text"
-          placeholder="Enter genre"
+        <Advsearch
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
-          onKeyUp={handleEnterPress}
-        ></input>
+          style={{ marginLeft: "8px" }}
+        />
       )}
     </div>
   );

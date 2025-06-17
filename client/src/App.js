@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
-import "./App.css";
+import "./styles/App.css";
+import "./styles/Movie-card.css";
+import "./styles/Movie-detail.css";
 import Movie from "./components/Movie";
 import MovieDetail from "./components/MovieDetail";
 import MovieForm from "./components/MovieForm";
@@ -25,6 +27,8 @@ function App() {
   const query = searchParams.get("query") || "";
   const genre = searchParams.get("genre") || "";
 
+  const [moviesSaved, setMoviesSaved] = useState([]);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,10 +37,6 @@ function App() {
       .then((res) => res.json())
       .then((data) => setMovies(data))
       .catch((err) => console.error(err));
-  };
-
-  const handleHomeClick = () => {
-    navigate("/");
   };
 
   useEffect(() => {
@@ -60,8 +60,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1 onClick={handleHomeClick}>Welcome to Movies API</h1>
-
       <Navbar>
         <Searchbar />
       </Navbar>
@@ -75,7 +73,21 @@ function App() {
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
-                <MovieList movies={movies} />
+                <MovieList
+                  movies={movies}
+                  moviesSaved={moviesSaved}
+                  setMoviesSaved={setMoviesSaved}
+                />
+              </div>
+              <div className="cell3 movie-saved">
+                <p2>Saved movies</p2>
+                {moviesSaved.map((saved, index) => (
+                  <div className="movie-saved-row" key={index}>
+                    <h2 className="movie-saved-row-title">{saved.title}</h2>
+                    {<img src={saved.poster_path} alt="Movie Poster" />}
+                    <button className="movie-saved-row-delete">Delete</button>
+                  </div>
+                ))}
               </div>
 
               <div className="cell1">
@@ -92,6 +104,7 @@ function App() {
                   />
                 )}
               </div>
+              <div className="grid-col-span-3"></div>
             </div>
           }
         />

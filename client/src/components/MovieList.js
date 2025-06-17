@@ -1,6 +1,6 @@
 import Movie from "./Movie";
 
-function MovieList({ movies }) {
+function MovieList({ movies, moviesSaved, setMoviesSaved }) {
   return (
     <div className="movie-list">
       {movies && movies.length > 0 ? (
@@ -12,6 +12,8 @@ function MovieList({ movies }) {
             genre={movie.genre}
             release_date={movie.release_date}
             poster_path={movie.poster_path}
+            moviesSaved={moviesSaved}
+            setMoviesSaved={setMoviesSaved}
           />
         ))
       ) : (

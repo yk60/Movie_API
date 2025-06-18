@@ -7,7 +7,9 @@ function Navbar({ children }) {
   };
   return (
     <div className="navbar">
-      <h1 onClick={handleHomeClick}>Welcome to Movies API</h1>
+      <div className="App-name" onClick={handleHomeClick}>
+        Welcome to Movies API
+      </div>
       <Link to="/movie">Movies</Link>
       <Link to="/profile">Profile</Link>
       {children}

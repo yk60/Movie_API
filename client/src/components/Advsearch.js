@@ -20,6 +20,7 @@ function Advsearch({ value, onChange, style }) {
     "War",
     "Western",
   ];
+
   return (
     <div className="advsearch-dropdown">
       {genres.map((genre) => (

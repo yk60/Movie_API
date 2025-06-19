@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Router, Routes, Route } from "react-router-dom";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import "./styles/App.css";
 import "./styles/Movie-card.css";
 import "./styles/Movie-detail.css";

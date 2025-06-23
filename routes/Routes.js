@@ -15,7 +15,7 @@ const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 // Define routes and connect to controller functions
 router.post("/movie/", createMovie);
 router.get("/movie/", getAllMovies);
-router.get("/movie/", deleteAllMovies);
+router.delete("/movie/", deleteAllMovies);
 router.get("/movie/search", searchMovies);
 router.get("/movie/:id", getMovie);
 router.put("/movie/:id", updateMovie);

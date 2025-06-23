@@ -10,10 +10,12 @@ app.use(express.json());
 app.use(cors()); // allows frontend to access API
 app.use("/", routes);
 
-connectDB().then(() => {
-  app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+if (process.env.NODE_ENV !== "test") {
+  connectDB().then(() => {
+    app.listen(3000, () => {
+      console.log("Server running on http://localhost:3000");
+    });
   });
-});
+}
 
 module.exports = app;

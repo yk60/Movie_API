@@ -1,5 +1,5 @@
-function Advsearch({ value, onChange, style }) {
-  const genres = [
+function Advsearch({ onChange, style, genres }) {
+  const genresList = [
     "Action",
     "Adventure",
     "Animation",
@@ -23,17 +23,19 @@ function Advsearch({ value, onChange, style }) {
 
   return (
     <div className="advsearch-dropdown">
-      {genres.map((genre) => (
-        <label key={genre} style={{ marginRight: "12px" }}>
-          <input
-            type="checkbox"
-            value={genre}
-            checked={value.includes(genre)}
-            onChange={onChange}
-          />
-          {genre}
-        </label>
-      ))}
+      <div id="genre-options">
+        {genresList.map((genre) => (
+          <label key={genre} style={{ marginRight: "12px" }}>
+            <input
+              type="checkbox"
+              value={genre}
+              checked={genres.includes(genre)}
+              onChange={onChange}
+            />
+            {genre}
+          </label>
+        ))}
+      </div>
     </div>
   );
 }

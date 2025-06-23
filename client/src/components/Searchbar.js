@@ -6,7 +6,7 @@ import Advsearch from "./Advsearch";
 function Searchbar() {
   const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, setShowAdvSearch, toggle] = useToggle(false);
-  const [genre, setGenre] = useState("");
+  const [genres, setGenres] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,7 +18,7 @@ function Searchbar() {
   useEffect(() => {
     if (location.pathname === "/movie") {
       setQuery("");
-      setGenre("");
+      setGenres([]);
     }
   }, [location.pathname]);
 
@@ -28,20 +28,37 @@ function Searchbar() {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    console.log("current genres", genres);
+  }, [genres]);
+
   // build the url for navigation
   const handleSearch = () => {
-    if (!query && !genre) {
+    if (!query && !genres) {
       return;
     }
     let url = `/movie/search?`;
     if (query.trim()) {
       url += `query=${encodeURIComponent(query)}&`;
     }
-    if (genre.trim()) {
-      url += `genre=${encodeURIComponent(genre)}&`;
+    if (genres) {
+      genres.map((genre, index) => {
+        url += `genre=${encodeURIComponent(genre)}&`;
+      });
     }
     url = url.slice(0, -1);
     navigate(url);
+  };
+
+  const handleGenreSelect = (e) => {
+    const check = e.target.checked;
+    const checkedGenre = e.target.value;
+
+    if (check) {
+      setGenres((prev) => [...prev, checkedGenre]);
+    } else {
+      setGenres(genres.filter((genre) => genre !== checkedGenre));
+    }
   };
 
   const handleEnterPress = async (e) => {
@@ -61,7 +78,7 @@ function Searchbar() {
       />
       <button className="button-default" onClick={handleSearch}>
         <img
-          src={"Search.png"}
+          src={"/Search.png"}
           alt="Search"
           style={{ width: "24px", height: "24px" }}
         ></img>
@@ -82,9 +99,9 @@ function Searchbar() {
       <br />
       {showAdvSearch && (
         <Advsearch
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
           style={{ marginLeft: "8px" }}
+          onChange={handleGenreSelect}
+          genres={genres}
         />
       )}
     </div>

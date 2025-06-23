@@ -78,7 +78,7 @@ const deleteAllMovies = async (req, res) => {
 
 const searchMovies = async (req, res) => {
   try {
-    const { query, genre } = req.query;
+    const { query, genre } = req.query; // genre will be string or list based on count
     const filter = {}; // filter object
 
     // find movie titles that contain the query

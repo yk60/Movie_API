@@ -27,12 +27,23 @@ const getMovie = async (req, res) => {
 };
 const getAllMovies = async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const total = await Movie.countDocuments();
+    const movies = await Movie.find().skip(skip).limit(limit);
+
     if (!movies) {
       return res.status(404).json({ error: "Movies not found" });
     }
-    // console.log(movies);
-    res.status(200).json(movies);
+
+    res.status(200).json({
+      movies,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

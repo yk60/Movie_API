@@ -30,10 +30,6 @@ function Movie({
     ]);
   };
 
-  // filter out the deleted object
-  const handleMovieunsave = () => {
-    setMoviesSaved((prev) => prev.filter((movie) => movie._id !== _id));
-  };
   return (
     <div className="movie-card">
       <div onClick={handleMovieClick}>
@@ -49,16 +45,10 @@ function Movie({
       </div>
       {/* wrap all remaining content except img */}
       <div className="movie-property-row">
-        <h2 className="movie-title">{title}</h2>
+        <div className="movie-title">{title}</div>
 
-        <div className="movie-meta">
-          {genre && genre.length > 0
-            ? genre.map((g) => <span key={g}>{g}</span>)
-            : "N/A"}
-        </div>
-
-        <div className="movie-meta">
-          {release_date ? new Date(release_date).toLocaleDateString() : ""}
+        <div className="movie-release-date">
+          {release_date ? new Date(release_date).getFullYear() : ""}
         </div>
       </div>
       {/* add to watchlist btn */}

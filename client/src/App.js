@@ -65,6 +65,11 @@ function App() {
     setCurrentPage(data.selected + 1);
   };
 
+  // filter out the deleted object
+  const handleMovieunsave = (id) => {
+    setMoviesSaved((prev) => prev.filter((movie) => movie._id !== id));
+  };
+
   useEffect(() => {
     fetchMovies();
   }, [currentPage, moviesPerPage]);
@@ -131,11 +136,16 @@ function App() {
               </div>
               <div className="cell3 movie-saved">
                 <div>Saved movies</div>
-                {moviesSaved.map((saved, index) => (
+                {moviesSaved.map((movie, index) => (
                   <div className="movie-saved-row" key={index}>
-                    <h2 className="movie-saved-row-title">{saved.title}</h2>
-                    {<img src={saved.poster_path} alt="Movie Poster" />}
-                    <button className="movie-saved-row-delete">Delete</button>
+                    <h2 className="movie-saved-row-title">{movie.title}</h2>
+                    {<img src={movie.poster_path} alt="Movie Poster" />}
+                    <button
+                      className="movie-saved-row-delete"
+                      onClick={() => handleMovieunsave(movie._id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 ))}
               </div>

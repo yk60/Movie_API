@@ -5,7 +5,7 @@ import Advsearch from "./Advsearch";
 
 function Searchbar() {
   const [query, setQuery] = useState(""); // input in main searchbar
-  const [showAdvSearch, setShowAdvSearch, toggle] = useToggle(false);
+  const [showAdvSearch, toggle] = useToggle(false);
   const [genres, setGenres] = useState([]);
 
   const navigate = useNavigate();
@@ -23,8 +23,8 @@ function Searchbar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname !== "/movie") {
-      setShowAdvSearch(false);
+    if (location.pathname !== "/movie" && showAdvSearch) {
+      toggle();
     }
   }, [location.pathname]);
 

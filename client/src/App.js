@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+
 import {
   Routes,
   Route,
@@ -19,120 +21,101 @@ import Searchbar from "./components/Searchbar";
 import { useToggle } from "./useToggle";
 import Popup from "./components/Popup";
 import SearchResult from "./components/SearchResult";
-import MovieList from "./components/MovieList";
 import PageNotFound from "./components/PageNotFound";
 import ReactPaginate from "react-paginate";
+import { buildMoviesUrl } from "./utils/Util";
 
 function App() {
-  const [movies, setMovies] = useState([]); // all movies in the db
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
   const [popupMsg, setPopupMsg] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
-  const genre = searchParams.get("genre") || "";
+  const genres = searchParams.get("genres") || "";
 
   const [moviesSaved, setMoviesSaved] = useState([]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [moviesPerPage, setmoviesPerPage] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0);
+  const page = parseInt(searchParams.get("page")) || 1;
+  const limit = parseInt(searchParams.get("limit")) || 10;
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const fetchMovies = () => {
-    console.log(`current page num: ${currentPage}`);
-    console.log(`current movies per page: ${moviesPerPage}`);
-
-    let url = `http://localhost:3000/movie/?`;
-    url += `page=${currentPage}&`;
-    url += `limit=${moviesPerPage}`;
-
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.movies);
-        setTotalPages(data.totalPages);
-        setTotal(data.total);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected + 1);
-  };
 
   // filter out the deleted object
   const handleMovieunsave = (id) => {
     setMoviesSaved((prev) => prev.filter((movie) => movie._id !== id));
   };
 
-  useEffect(() => {
-    fetchMovies();
-  }, [currentPage, moviesPerPage]);
-
   // Any time user navigates to other pages out of /search, reset searchParams
   useEffect(() => {
-    if (location.pathname !== "/movie/search") {
+    if (location.pathname !== "/movies") {
       searchParams.delete("query");
-      searchParams.delete("genre");
+      searchParams.delete("genres");
       setSearchParams(searchParams);
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    console.log("App useEffect: checking for default params");
+
+    if (
+      location.pathname === "/movies" &&
+      !searchParams.get("page") &&
+      !searchParams.get("limit") &&
+      !searchParams.get("query") &&
+      !searchParams.get("genres")
+    ) {
+      console.log("App useEffect: setting default page and limit");
+
+      const params = new URLSearchParams(searchParams);
+      params.set("page", page);
+      params.set("limit", limit);
+      params.set("query", query);
+      params.set("genres", genres);
+      navigate(`/movies?${params.toString()}`, { replace: true });
+    }
+  }, [location.pathname, searchParams, navigate]);
+  console.log("App rendered");
+
   return (
     <div className="App">
       <Navbar>
-        <Searchbar />
+        <Searchbar page={page} limit={limit} />
       </Navbar>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
-          path="/movie"
-          // if user is searching, display the search result. Else, display all
+          path="/movies"
           element={
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
                 <div className="items-per-page-dropdown">
                   <select
-                    value={moviesPerPage}
+                    value={limit}
                     onChange={(e) => {
-                      setmoviesPerPage(Number(e.target.value));
-                      setCurrentPage(1);
+                      searchParams.set("limit", Number(e.target.value));
+                      searchParams.set("page", 1);
+                      setSearchParams(searchParams);
                     }}
                   >
                     <option value={5}>5 per page</option>
                     <option value={10}>10 per page</option>
                     <option value={20}>20 per page</option>
-                    <option value={parseInt(total)}>All movies</option>
+                    <option value={60}>All movies</option>
                   </select>
                 </div>
 
-                <MovieList
-                  movies={movies}
+                {/* by default, should show first 10 movies in page 1 */}
+                <SearchResult
+                  query={query}
+                  genres={genres}
+                  page={page}
+                  limit={limit}
                   moviesSaved={moviesSaved}
                   setMoviesSaved={setMoviesSaved}
                 />
-
-                <div className="pagination">
-                  <ReactPaginate
-                    previousLabel={"Previous"}
-                    nextLabel={"Next"}
-                    breakLabel={"..."}
-                    breakClassName={"break-me"}
-                    pageCount={totalPages}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={3}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
-                    activeClassName={"active"}
-                  />
-                </div>
               </div>
               <div className="cell3 movie-saved">
                 <div>Saved movies</div>
@@ -159,7 +142,7 @@ function App() {
                   <MovieForm
                     popupMsg={popupMsg}
                     setPopupMsg={setPopupMsg}
-                    fetchMovies={fetchMovies}
+                    // fetchMovies={fetchMovies}
                     toggle={toggle}
                   />
                 )}
@@ -169,17 +152,16 @@ function App() {
           }
         />
         <Route
-          path="/movie/:id"
+          path="/movies/:id"
           element={
             <MovieDetail
               popupMsg={popupMsg}
               setPopupMsg={setPopupMsg}
-              fetchMovies={fetchMovies}
+              // fetchMovies={fetchMovies}
             />
           }
         />
-        <Route path="/movie/search" element={<SearchResult />} />
-
+        {/* <Route path="/movies?" element={<SearchResult />} /> */}
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

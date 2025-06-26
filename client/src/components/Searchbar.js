@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToggle } from "../useToggle";
 import Advsearch from "./Advsearch";
+import { buildMoviesUrl } from "../utils/Util";
 
-function Searchbar() {
+function Searchbar({ page, limit }) {
   const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, toggle] = useToggle(false);
   const [genres, setGenres] = useState([]);
@@ -16,37 +17,26 @@ function Searchbar() {
   };
 
   useEffect(() => {
-    if (location.pathname === "/movie") {
+    if (location.pathname === "/movies") {
       setQuery("");
       setGenres([]);
     }
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname !== "/movie" && showAdvSearch) {
+    if (location.pathname !== "/movies" && showAdvSearch) {
       toggle();
     }
   }, [location.pathname]);
 
   useEffect(() => {
+    console.log("current query", query);
     console.log("current genres", genres);
   }, [genres]);
 
-  // build the url for navigation
+  // build the url to update the address in address bar (frontend)
   const handleSearch = () => {
-    if (!query && !genres) {
-      return;
-    }
-    let url = `/movie/search?`;
-    if (query.trim()) {
-      url += `query=${encodeURIComponent(query)}&`;
-    }
-    if (genres) {
-      genres.map((genre, index) => {
-        url += `genre=${encodeURIComponent(genre)}&`;
-      });
-    }
-    url = url.slice(0, -1);
+    const url = buildMoviesUrl({ query, genres, page, limit });
     navigate(url);
   };
 

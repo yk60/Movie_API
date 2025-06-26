@@ -25,14 +25,26 @@ const getMovie = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 const getAllMovies = async (req, res) => {
   try {
+    const { query, genre } = req.query; // genre:string/list
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const total = await Movie.countDocuments();
-    const movies = await Movie.find().skip(skip).limit(limit);
+    const filter = {};
+    if (query) {
+      filter.title = { $regex: query, $options: "i" };
+    }
+    if (genre) {
+      const genres = Array.isArray(genre) ? genre : [genre];
+      filter.genre = genres.length > 1 ? { $all: genres } : { $in: genres };
+    }
+
+    const movies = await Movie.find(filter).skip(skip).limit(limit);
+    const total = await Movie.countDocuments(filter);
+    console.log("res per page (with optional search query) " + movies);
 
     if (!movies) {
       return res.status(404).json({ error: "Movies not found" });
@@ -87,28 +99,6 @@ const deleteAllMovies = async (req, res) => {
   }
 };
 
-const searchMovies = async (req, res) => {
-  try {
-    const { query, genre } = req.query; // genre will be string or list based on count
-    const filter = {}; // filter object
-
-    // find movie titles that contain the query
-    if (query) {
-      filter.title = { $regex: query, $options: "i" };
-    }
-    if (genre) {
-      const genres = Array.isArray(genre) ? genre : [genre];
-      filter.genre = genres.length > 1 ? { $all: genres } : { $in: genres };
-    }
-
-    const movies = await Movie.find(filter);
-    console.log(movies);
-    res.status(200).json(movies);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
 module.exports = {
   createMovie,
   getMovie,
@@ -116,5 +106,4 @@ module.exports = {
   updateMovie,
   deleteMovie,
   deleteAllMovies,
-  searchMovies,
 };

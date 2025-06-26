@@ -43,7 +43,7 @@ function MovieForm(props) {
   // add new movie to database by making a POST request
   const handleMovieAdd = (e) => {
     e.preventDefault(); // prevents form data from getting appended to url
-    fetch("http://localhost:3000/movie/", {
+    fetch("http://localhost:3000/movies/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ function MovieForm(props) {
       .then((data) => {
         props.setPopupMsg("Added new movie");
         props.fetchMovies();
-        navigate("/movie");
+        navigate("/movies");
 
         props.toggle();
         console.log(data);

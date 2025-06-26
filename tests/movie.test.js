@@ -44,13 +44,13 @@ beforeEach(async () => {
   ];
   for (const movie of movies) {
     const res = await request(app)
-      .post("/movie/")
+      .post("/movies/")
       .send(movie)
       .set("Accept", "application/json");
     expect(res.statusCode).toBe(201);
     movieIds.push(res.body._id);
   }
-  const res = await request(app).get("/movie/");
+  const res = await request(app).get("/movies/");
   expect(res.body.length).toBe(3);
 });
 
@@ -71,7 +71,7 @@ describe("Test basic CRUD operations", () => {
       poster_path: "/movie_placeholder.jpg",
     };
     let res = await request(app)
-      .post("/movie/")
+      .post("/movies/")
       .send(newMovie)
       .set("Accept", "application/json");
 
@@ -80,7 +80,7 @@ describe("Test basic CRUD operations", () => {
     expect(res.body.title).toBe("Test Movie 4");
     expect(res.body.genre).toEqual(["Family", "Adventure"]);
 
-    res = await request(app).get("/movie/");
+    res = await request(app).get("/movies/");
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body.length).toBe(4);
@@ -88,7 +88,7 @@ describe("Test basic CRUD operations", () => {
 
   it("should fetch one movie", async () => {
     const firstMovieId = movieIds[0];
-    const res = await request(app).get(`/movie/${firstMovieId}`);
+    const res = await request(app).get(`/movies/${firstMovieId}`);
     expect(res.statusCode).toBe(200);
     expect(typeof res.body).toBe("object");
     expect(res.body.title).toBe("Test Movie 1");
@@ -101,7 +101,7 @@ describe("Test basic CRUD operations", () => {
       genre: ["Fantasy"],
     };
     const res = await request(app)
-      .put(`/movie/${firstMovieId}`)
+      .put(`/movies/${firstMovieId}`)
       .send(updatedMovie);
     expect(res.statusCode).toBe(200);
     expect(res.body.title).toBe("Frozen");
@@ -110,9 +110,7 @@ describe("Test basic CRUD operations", () => {
 });
 describe("Test search operations", () => {
   it("should return all movies with single genre match", async () => {
-    const res = await request(app)
-      .get("/movie/search")
-      .query({ genre: "Fantasy" });
+    const res = await request(app).get("/movies?").query({ genre: "Fantasy" });
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(2);
     res.body.forEach((movie) => {
@@ -122,7 +120,7 @@ describe("Test search operations", () => {
 
   it("should return all movies with multiple genres match", async () => {
     const res = await request(app)
-      .get("/movie/search")
+      .get("/movies?")
       .query({ genre: ["Fantasy", "Family"] });
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(2);
@@ -133,9 +131,7 @@ describe("Test search operations", () => {
     });
   });
   it("should result in not found", async () => {
-    const res = await request(app)
-      .get("/movie/search")
-      .query({ genre: "Romance" });
+    const res = await request(app).get("/movies?").query({ genre: "Romance" });
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(0);
   });
@@ -144,20 +140,20 @@ describe("Test search operations", () => {
 describe("Test delete operations", () => {
   it("should delete one movie", async () => {
     const firstMovieId = movieIds[0];
-    let res = await request(app).delete(`/movie/${firstMovieId}`);
+    let res = await request(app).delete(`/movies/${firstMovieId}`);
     expect(res.statusCode).toBe(204);
 
     // should fetch no movie given nonexisting id
-    res = await request(app).get(`/movie/${firstMovieId}`);
+    res = await request(app).get(`/movies/${firstMovieId}`);
     expect(res.statusCode).toBe(404);
   });
 
   it("should delete all movies", async () => {
-    let res = await request(app).delete("/movie/");
+    let res = await request(app).delete("/movies/");
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("deletedCount");
     expect(res.body.deletedCount).toBe(3);
-    res = await request(app).get("/movie/");
+    res = await request(app).get("/movies/");
     expect(res.body.length).toBe(0);
   });
 });

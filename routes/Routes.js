@@ -4,22 +4,20 @@ const router = express.Router();
 const {
   createMovie,
   getMovie,
-  getAllMovies,
+  getAllMovies, // = searchMovies
   updateMovie,
   deleteMovie,
   deleteAllMovies,
-  searchMovies,
 } = require("../controllers/Controller");
 const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 
 // Define routes and connect to controller functions
-router.post("/movie/", createMovie);
-router.get("/movie/", getAllMovies);
-router.delete("/movie/", deleteAllMovies);
-router.get("/movie/search", searchMovies);
-router.get("/movie/:id", getMovie);
-router.put("/movie/:id", updateMovie);
-router.delete("/movie/:id", deleteMovie);
+router.post("/movies/", createMovie);
+router.get("/movies/", getAllMovies);
+router.delete("/movies/", deleteAllMovies);
+router.get("/movies/:id", getMovie);
+router.put("/movies/:id", updateMovie);
+router.delete("/movies/:id", deleteMovie);
 router.get("/fetch-movies", fetchAndSaveMovies);
 
 router.use((req, res) => {

@@ -16,7 +16,7 @@ function Movie({
   const movie_placeholder = "/movie_placeholder.jpg";
 
   const handleMovieClick = () => {
-    navigate(`/movie/${_id}`);
+    navigate(`/movies/${_id}`);
   };
   const handleBtnClick = () => {
     toast("button clicked!");

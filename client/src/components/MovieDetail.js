@@ -13,13 +13,13 @@ function Movie_detail(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/movie/${id}`)
+    fetch(`http://localhost:3000/movies/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
         setDraft(data); // create copy of movie data
+        console.log(data);
       })
-
       .catch((err) => console.error(err));
   }, [id]); // runs once or whenever id changes
 
@@ -38,7 +38,7 @@ function Movie_detail(props) {
   };
 
   const handleEditSave = () => {
-    fetch(`http://localhost:3000/movie/${id}`, {
+    fetch(`http://localhost:3000/movies/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -51,26 +51,25 @@ function Movie_detail(props) {
         setMovie(data);
         toggle();
         props.setPopupMsg("Saved changes");
-        props.fetchMovies();
-        console.log(data);
       })
       .catch((err) => console.error(err));
   };
 
-  const handleDeleteMovie = () => {
-    fetch(`http://localhost:3000/movie/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMovie(null); // reset the local states
-        setDraft(null);
-        props.fetchMovies();
-        navigate("/movie");
+  const handleDeleteMovie = async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/movies/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
         props.setPopupMsg("Deleted movie");
-        console.log(data);
-      })
-      .catch((err) => console.error(err));
+        navigate("/movies");
+      } else {
+        props.setPopupMsg("Error deleting movie");
+      }
+    } catch (err) {
+      console.error(err);
+      props.setPopupMsg("Error deleting movie");
+    }
   };
 
   return (
@@ -88,56 +87,64 @@ function Movie_detail(props) {
           </div>
           <div className="movie-detail-info">
             {editMovie ? (
-              <input
-                className="inline-edit-input"
-                name="title"
-                type="String"
-                value={draft.title}
-                onChange={handleChange}
-              ></input>
+              <div>
+                <label>
+                  Title:
+                  <input
+                    className="inline-edit-input"
+                    name="title"
+                    type="text"
+                    value={draft.title}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Genre:
+                  <input
+                    className="inline-edit-input"
+                    name="genre"
+                    type="text"
+                    value={draft.genre}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Release Date:
+                  <input
+                    className="inline-edit-input"
+                    name="release_date"
+                    type="text"
+                    value={
+                      draft.release_date
+                        ? new Date(draft.release_date).toLocaleDateString()
+                        : ""
+                    }
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  overview:
+                  <input
+                    className="inline-edit-input"
+                    name="overview"
+                    type="text"
+                    value={draft.overview}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
             ) : (
-              <h2>{movie.title}</h2>
-            )}
-            <strong>Genre:</strong>{" "}
-            {editMovie ? (
-              <input
-                className="inline-edit-input"
-                name="genre"
-                type="String"
-                value={draft.genre}
-                onChange={handleChange}
-              ></input>
-            ) : (
-              <h2>{movie.genre}</h2>
-            )}
-            <strong>Release Date:</strong>{" "}
-            {editMovie ? (
-              <input
-                className="inline-edit-input"
-                name="release_date"
-                type="String"
-                value={
-                  draft.release_date
-                    ? new Date(draft.release_date).toLocaleDateString()
-                    : ""
-                }
-                onChange={handleChange}
-              ></input>
-            ) : movie.release_date ? (
-              <h2>{new Date(movie.release_date).toLocaleDateString()}</h2>
-            ) : (
-              ""
-            )}
-            {editMovie ? (
-              <input
-                className="inline-edit-input"
-                name="description"
-                type="String"
-                value={draft.description}
-                onChange={handleChange}
-              ></input>
-            ) : (
-              <h2>{movie.description}</h2>
+              <div>
+                <h2>{movie.title}</h2>
+                <h2>{movie.genre.join(" ")}</h2>
+                {movie.release_date ? (
+                  <h2>{movie.release_date.slice(0, 10)}</h2>
+                ) : (
+                  ""
+                )}
+                <h2>{movie.popularity}</h2>
+                <h3>{movie.overview}</h3>
+              </div>
             )}
           </div>
 

@@ -20,20 +20,21 @@ async function fetchAndSaveMovies(req, res) {
       genreMap[Number(genre.id)] = genre.name;
     });
 
+    // extract only the selected parameters from each movie
     const movies_filtered = movies.map((movie) => ({
+      tmdb_id: movie.id, // int or 0 by default
       title: movie.title ? movie.title : "",
-
       genre: movie.genre_ids
         ? movie.genre_ids.map((id) => genreMap[id]).filter(Boolean)
         : [],
-
       release_date: movie.release_date
         ? new Date(movie.release_date).toLocaleDateString()
         : "",
-      overview: movie.overview ? movie.overview : "",
       poster_path: movie.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : "",
+      popularity: movie.popularity ? movie.popularity : 0,
+      overview: movie.overview ? movie.overview : "",
     }));
 
     await Movie.insertMany(movies_filtered);

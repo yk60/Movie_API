@@ -9,7 +9,7 @@ function MovieForm(props) {
     title: "",
     release_date: new Date().toISOString().slice(0, 10),
     genre: [String],
-    description: "",
+    overview: "",
     poster_path: movie_placeholder,
   });
 
@@ -94,9 +94,9 @@ function MovieForm(props) {
         </select>
 
         <input
-          name="description"
+          name="overview"
           type="String"
-          placeholder="Enter movie description:"
+          placeholder="Enter movie overview:"
           onChange={handleChange}
         ></input>
         <input

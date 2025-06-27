@@ -50,7 +50,7 @@ function SearchResult({
       <div className="cell2">
         <div className="cell2-header">
           <div className="search-result-range">
-            {`${start} - ${end} /${total} results`}
+            {`${start} - ${end} of ${total} results`}
           </div>
           <div className="items-per-page-dropdown">
             <select

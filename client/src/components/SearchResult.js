@@ -13,11 +13,14 @@ function SearchResult({
   moviesSaved,
   setMoviesSaved,
 }) {
-  const [movies, setMovies] = useState([]); // all movies in db
+  const [movies, setMovies] = useState([]); // all movies in curr page
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [total, setTotal] = useState(0); // num movies in db
   const [totalPages, setTotalPages] = useState(1);
+
+  const start = (page - 1) * limit + 1;
+  const end = Math.min(page * limit, total);
 
   const handlePageClick = (data) => {
     searchParams.set("page", data.selected + 1);
@@ -45,20 +48,26 @@ function SearchResult({
   return (
     <div className="container">
       <div className="cell2">
-        <div className="items-per-page-dropdown">
-          <select
-            onChange={(e) => {
-              searchParams.set("limit", Number(e.target.value));
-              searchParams.set("page", 1);
-              setSearchParams(searchParams);
-            }}
-          >
-            <option value={10}>10 per page</option>
-            <option value={20}>20 per page</option>
-            <option value={50}>50 per page</option>
-            <option value={parseInt(total)}>All movies</option>
-          </select>
+        <div className="cell2-header">
+          <div className="search-result-range">
+            {`${start} - ${end} /${total} results`}
+          </div>
+          <div className="items-per-page-dropdown">
+            <select
+              onChange={(e) => {
+                searchParams.set("limit", Number(e.target.value));
+                searchParams.set("page", 1);
+                setSearchParams(searchParams);
+              }}
+            >
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={50}>50 per page</option>
+              <option value={parseInt(total)}>All movies</option>
+            </select>
+          </div>
         </div>
+
         <MovieList
           movies={movies}
           moviesSaved={moviesSaved}

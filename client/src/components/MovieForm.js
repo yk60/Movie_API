@@ -7,7 +7,7 @@ function MovieForm(props) {
 
   const [formData, setFormData] = useState({
     title: "",
-    release_date: "",
+    release_date: new Date().toISOString().slice(0, 10),
     genre: [String],
     description: "",
     poster_path: movie_placeholder,
@@ -72,6 +72,7 @@ function MovieForm(props) {
         <input
           name="release_date"
           type="Date"
+          value={formData.release_date}
           placeholder="Enter movie release date:"
           required
           onChange={handleChange}
@@ -106,8 +107,6 @@ function MovieForm(props) {
         ></input>
         <button type="submit">Submit</button>
       </form>
-      <p>{formData.title}</p>
-      <p>{formData.genre}</p>
       <p>{formData.poster_path}</p>
     </div>
   );

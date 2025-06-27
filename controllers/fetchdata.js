@@ -35,8 +35,6 @@ async function fetchAndSaveMovies(req, res) {
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : "",
     }));
-    console.log(movies_filtered);
-    console.log(genreMap);
 
     await Movie.insertMany(movies_filtered);
 

@@ -1,3 +1,10 @@
+body,
+#root,
+.App {
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 body {
   margin: 0;
   font-family: Helvetica, serif;
@@ -39,8 +46,14 @@ body {
   grid-column: col2 / col3;
   grid-row: row1 / row2;
   overflow: visible;
-  /* overflow-y: auto; */
   min-width: 0;
+}
+.cell2-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  width: 100%;
 }
 .cell3 {
   grid-column: col3 / col4;
@@ -146,18 +159,37 @@ body {
 
 .App-name {
   font-size: 1.5rem;
+  white-space: nowrap;
 }
 .navbar {
-  position: relative;
   width: 100%;
+  min-width: 0;
   height: 60px;
   display: flex;
+  flex-direction: row;
   align-items: center; /* vertical centering */
-  justify-content: center; /* horizontal centering */
-  gap: 32px;
   background: #f7f7fa;
-  padding: 12px 0;
+  padding: 12px 32px;
   border-bottom: 1px solid #ece9f7;
+  position: relative;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+/* wraps everything except app name */
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 0;
+  flex: 1 1 0%;
+  flex-wrap: wrap;
+}
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
 }
 
 .navbar a {
@@ -174,36 +206,52 @@ body {
   background: #ece9f7;
   color: #4b3bbd;
 }
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  flex-shrink: 1;
+}
 
-.searchbar-container input[type="text"] {
+.searchbar input[type="text"] {
   font-size: 1rem;
   padding: 8px 12px;
   border: 1px solid #b39ddb;
   border-radius: 4px;
-  margin-right: 12px;
+  /* margin-right: 12px; */
   outline: none;
   transition: border-color 0.2s;
   background: #f7f7fa;
 }
 
-.searchbar-container input[type="text"]:focus {
+.searchbar input[type="text"]:focus {
   border-color: #6c63ff;
   background: #fff;
 }
 .advsearch-dropdown {
-  background: #b39ddb;
   position: absolute;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%; /* or 100% if you want it to match the navbar's width */
-  height: 200px;
-  padding: 10px 12px 16px;
-  background: #f7f7fa;
-  z-index: 10;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
+  top: 110%; /* slightly below navbar */
+  right: 32px; /* align with navbar padding */
+  width: 340px;
+  max-width: 95vw;
+  padding: 18px 20px 20px 20px;
+  background: #fff;
+  border: 1px solid #ece9f7;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.13), 0 2px 8px rgba(0, 0, 0, 0.07);
+  z-index: 100;
+  margin-top: 4px;
+  transition: opacity 0.18s, transform 0.18s;
+  opacity: 1;
+}
+
+.advsearch-dropdown label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 1rem;
 }
 
 .pagination {
@@ -233,6 +281,13 @@ body {
   cursor: not-allowed;
 }
 
+.search-result-range {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* aligns content to the left */
+  color: red;
+  margin-top: 0;
+}
 .items-per-page-dropdown {
   display: flex;
   align-items: center;

@@ -36,6 +36,7 @@ function Searchbar({ page, limit }) {
 
   // build the url to update the address in address bar (frontend)
   const handleSearch = () => {
+    page = 1;
     const url = buildMoviesUrl({ query, genre, page, limit });
     navigate(url);
   };
@@ -58,7 +59,7 @@ function Searchbar({ page, limit }) {
   };
 
   return (
-    <div className="searchbar-container">
+    <div className="searchbar">
       <input
         type="text"
         placeholder="Enter a movie title"
@@ -74,19 +75,10 @@ function Searchbar({ page, limit }) {
         ></img>
       </button>
 
-      <button
-        onClick={toggle}
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: "250px",
-          transform: "translateY(-50%)",
-        }}
-      >
+      <button className="button-default" onClick={toggle}>
         Advanced search
       </button>
 
-      <br />
       {showAdvSearch && (
         <Advsearch
           style={{ marginLeft: "8px" }}

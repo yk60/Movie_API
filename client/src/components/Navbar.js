@@ -10,9 +10,13 @@ function Navbar({ children }) {
       <div className="App-name" onClick={handleHomeClick}>
         Welcome to Movies API
       </div>
-      <Link to="/movies">Movies</Link>
-      <Link to="/profile">Profile</Link>
-      {children}
+      <div className="navbar-content">
+        <div className="navbar-links">
+          <Link to="/movies">Movies</Link>
+          <Link to="/profile">Profile</Link>
+        </div>
+        {children}
+      </div>
     </div>
   );
 }

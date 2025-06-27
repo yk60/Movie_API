@@ -3,9 +3,9 @@ import Movie from "./Movie";
 function MovieList({ movies, moviesSaved, setMoviesSaved }) {
   return (
     <div>
-      <div
-        style={{ color: "red", textAlign: "left" }}
-      >{`${movies.length} results`}</div>
+      <div style={{ color: "red", textAlign: "left" }}>
+        {`${movies?.length || 0} results`}
+      </div>
       <div className="movie-list">
         {movies && movies.length > 0 ? (
           movies.map((movie) => (

@@ -7,7 +7,7 @@ import ReactPaginate from "react-paginate";
 // function to fetch movies based on page number + optional filters
 function SearchResult({
   query,
-  genres,
+  genre = [], // default value
   page,
   limit,
   moviesSaved,
@@ -25,8 +25,8 @@ function SearchResult({
 
   // build the url for API GET request
   useEffect(() => {
-    console.log("Fetching movies with", { query, genres, page, limit });
-    let url = buildMoviesUrl({ query, genres, page, limit });
+    console.log("Fetching movies with", { query, genre, page, limit });
+    let url = buildMoviesUrl({ query, genre, page, limit });
     fetch("http://localhost:3000" + url)
       .then((res) => res.json())
       .then((data) => {
@@ -34,30 +34,44 @@ function SearchResult({
         setTotalPages(data.totalPages);
         setTotal(data.total);
       });
-  }, [page, limit, query, genres]);
+  }, [query, genre, page, limit]);
 
   return (
     <div className="container">
       <div className="cell2">
+        <div className="items-per-page-dropdown">
+          <select
+            onChange={(e) => {
+              searchParams.set("limit", Number(e.target.value));
+              searchParams.set("page", 1);
+              setSearchParams(searchParams);
+            }}
+          >
+            <option value={10}>10 per page</option>
+            <option value={20}>20 per page</option>
+            <option value={50}>50 per page</option>
+            <option value={parseInt(total)}>All movies</option>
+          </select>
+        </div>
         <MovieList
           movies={movies}
           moviesSaved={moviesSaved}
           setMoviesSaved={setMoviesSaved}
         />
-      </div>
-      <div className="pagination">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-        />
+        <div className="pagination">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
+        </div>
       </div>
     </div>
   );

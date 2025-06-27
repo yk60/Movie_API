@@ -32,7 +32,7 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
-  const genres = searchParams.get("genres") || "";
+  const genre = searchParams.getAll("genre") || [];
 
   const [moviesSaved, setMoviesSaved] = useState([]);
   const page = parseInt(searchParams.get("page")) || 1;
@@ -50,20 +50,21 @@ function App() {
   useEffect(() => {
     if (location.pathname !== "/movies") {
       searchParams.delete("query");
-      searchParams.delete("genres");
+      searchParams.delete("genre");
       setSearchParams(searchParams);
     }
   }, [location.pathname]);
 
+  // set default values to searchparams
   useEffect(() => {
     console.log("App useEffect: checking for default params");
 
     if (
       location.pathname === "/movies" &&
       !searchParams.get("page") &&
-      !searchParams.get("limit") &&
-      !searchParams.get("query") &&
-      !searchParams.get("genres")
+      !searchParams.get("limit")
+      // !searchParams.get("query") &&
+      // !searchParams.get("genre")
     ) {
       console.log("App useEffect: setting default page and limit");
 
@@ -71,7 +72,7 @@ function App() {
       params.set("page", page);
       params.set("limit", limit);
       params.set("query", query);
-      params.set("genres", genres);
+      params.set("genre", genre);
       navigate(`/movies?${params.toString()}`, { replace: true });
     }
   }, [location.pathname, searchParams, navigate]);
@@ -91,26 +92,10 @@ function App() {
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
-                <div className="items-per-page-dropdown">
-                  <select
-                    value={limit}
-                    onChange={(e) => {
-                      searchParams.set("limit", Number(e.target.value));
-                      searchParams.set("page", 1);
-                      setSearchParams(searchParams);
-                    }}
-                  >
-                    <option value={5}>5 per page</option>
-                    <option value={10}>10 per page</option>
-                    <option value={20}>20 per page</option>
-                    <option value={60}>All movies</option>
-                  </select>
-                </div>
-
                 {/* by default, should show first 10 movies in page 1 */}
                 <SearchResult
                   query={query}
-                  genres={genres}
+                  genre={genre}
                   page={page}
                   limit={limit}
                   moviesSaved={moviesSaved}

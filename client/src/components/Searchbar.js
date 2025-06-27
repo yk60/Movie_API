@@ -7,7 +7,7 @@ import { buildMoviesUrl } from "../utils/Util";
 function Searchbar({ page, limit }) {
   const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, toggle] = useToggle(false);
-  const [genres, setGenres] = useState([]);
+  const [genre, setGenre] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,7 +19,7 @@ function Searchbar({ page, limit }) {
   useEffect(() => {
     if (location.pathname === "/movies") {
       setQuery("");
-      setGenres([]);
+      setGenre([]);
     }
   }, [location.pathname]);
 
@@ -31,12 +31,12 @@ function Searchbar({ page, limit }) {
 
   useEffect(() => {
     console.log("current query", query);
-    console.log("current genres", genres);
-  }, [genres]);
+    console.log("current genres", genre);
+  }, [query, genre]);
 
   // build the url to update the address in address bar (frontend)
   const handleSearch = () => {
-    const url = buildMoviesUrl({ query, genres, page, limit });
+    const url = buildMoviesUrl({ query, genre, page, limit });
     navigate(url);
   };
 
@@ -45,9 +45,9 @@ function Searchbar({ page, limit }) {
     const checkedGenre = e.target.value;
 
     if (check) {
-      setGenres((prev) => [...prev, checkedGenre]);
+      setGenre((prev) => [...prev, checkedGenre]);
     } else {
-      setGenres(genres.filter((genre) => genre !== checkedGenre));
+      setGenre(genre.filter((genre) => genre !== checkedGenre));
     }
   };
 
@@ -91,7 +91,7 @@ function Searchbar({ page, limit }) {
         <Advsearch
           style={{ marginLeft: "8px" }}
           onChange={handleGenreSelect}
-          genres={genres}
+          genre={genre}
         />
       )}
     </div>

@@ -28,9 +28,8 @@ const getMovie = async (req, res) => {
 
 const getAllMovies = async (req, res) => {
   try {
-    const { query, genre } = req.query; // genre:string/list
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    console.log(req.query);
+    const { query, genre, page, limit } = req.query;
     const skip = (page - 1) * limit;
 
     const filter = {};
@@ -38,18 +37,16 @@ const getAllMovies = async (req, res) => {
       filter.title = { $regex: query, $options: "i" };
     }
     if (genre) {
-      const genres = Array.isArray(genre) ? genre : [genre];
-      filter.genre = genres.length > 1 ? { $all: genres } : { $in: genres };
+      const genre_list = Array.isArray(genre) ? genre : [genre];
+      filter.genre = { $in: genre_list };
     }
 
     const movies = await Movie.find(filter).skip(skip).limit(limit);
     const total = await Movie.countDocuments(filter);
-    console.log("res per page (with optional search query) " + movies);
-
+    console.log("total filtered movies: " + total.toString());
     if (!movies) {
       return res.status(404).json({ error: "Movies not found" });
     }
-
     res.status(200).json({
       movies,
       total,

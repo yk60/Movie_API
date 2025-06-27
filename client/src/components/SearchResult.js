@@ -14,6 +14,7 @@ function SearchResult({
   setMoviesSaved,
 }) {
   const [movies, setMovies] = useState([]); // all movies in db
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [total, setTotal] = useState(0); // num movies in db
   const [totalPages, setTotalPages] = useState(1);
@@ -23,8 +24,7 @@ function SearchResult({
     setSearchParams(searchParams);
   };
 
-  // build the url for API GET request
-  useEffect(() => {
+  const fetchMovies = () => {
     console.log("Fetching movies with", { query, genre, page, limit });
     let url = buildMoviesUrl({ query, genre, page, limit });
     fetch("http://localhost:3000" + url)
@@ -33,7 +33,13 @@ function SearchResult({
         setMovies(data.movies);
         setTotalPages(data.totalPages);
         setTotal(data.total);
-      });
+      })
+      .catch((err) => console.error(err));
+  };
+
+  // build the url for API GET request
+  useEffect(() => {
+    fetchMovies();
   }, [query, genre, page, limit]);
 
   return (

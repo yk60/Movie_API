@@ -53,11 +53,8 @@ function MovieForm(props) {
       .then((res) => res.json())
       .then((data) => {
         props.setPopupMsg("Added new movie");
-        props.fetchMovies();
         navigate("/movies");
-
         props.toggle();
-        console.log(data);
       })
       .catch((err) => console.error(err));
   };

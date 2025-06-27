@@ -127,7 +127,6 @@ function App() {
                   <MovieForm
                     popupMsg={popupMsg}
                     setPopupMsg={setPopupMsg}
-                    // fetchMovies={fetchMovies}
                     toggle={toggle}
                   />
                 )}
@@ -139,11 +138,7 @@ function App() {
         <Route
           path="/movies/:id"
           element={
-            <MovieDetail
-              popupMsg={popupMsg}
-              setPopupMsg={setPopupMsg}
-              // fetchMovies={fetchMovies}
-            />
+            <MovieDetail popupMsg={popupMsg} setPopupMsg={setPopupMsg} />
           }
         />
         {/* <Route path="/movies?" element={<SearchResult />} /> */}

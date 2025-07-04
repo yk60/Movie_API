@@ -24,7 +24,8 @@ import SearchResult from "./components/SearchResult";
 import PageNotFound from "./components/PageNotFound";
 import ReactPaginate from "react-paginate";
 import { buildMoviesUrl } from "./utils/Util";
-
+import Watchlist from "./components/Watchlist";
+import Watchlists from "./components/Watchlists";
 function App() {
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
@@ -35,16 +36,12 @@ function App() {
   const genre = searchParams.getAll("genre") || [];
 
   const [moviesSaved, setMoviesSaved] = useState([]);
+  const [watchlists, setWatchlists] = useState([]);
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  // filter out the deleted object
-  const handleMovieunsave = (id) => {
-    setMoviesSaved((prev) => prev.filter((movie) => movie._id !== id));
-  };
 
   // Any time user navigates to other pages out of /search, reset searchParams
   useEffect(() => {
@@ -92,7 +89,6 @@ function App() {
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
-                {/* by default, should show first 10 movies in page 1 */}
                 <SearchResult
                   query={query}
                   genre={genre}
@@ -103,19 +99,12 @@ function App() {
                 />
               </div>
               <div className="cell3 movie-saved">
-                <div>Saved movies</div>
-                {moviesSaved.map((movie, index) => (
-                  <div className="movie-saved-row" key={index}>
-                    <h2 className="movie-saved-row-title">{movie.title}</h2>
-                    {<img src={movie.poster_path} alt="Movie Poster" />}
-                    <button
-                      className="movie-saved-row-delete"
-                      onClick={() => handleMovieunsave(movie._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
+                <Watchlists
+                  watchlists={watchlists}
+                  setWatchlists={setWatchlists}
+                  moviesSaved={moviesSaved}
+                  setMoviesSaved={setMoviesSaved}
+                />
               </div>
 
               <div className="cell1">
@@ -141,8 +130,13 @@ function App() {
             <MovieDetail popupMsg={popupMsg} setPopupMsg={setPopupMsg} />
           }
         />
-        {/* <Route path="/movies?" element={<SearchResult />} /> */}
         <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/watchlists"
+          element={
+            <Watchlists watchlists={watchlists} setWatchlists={setWatchlists} />
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

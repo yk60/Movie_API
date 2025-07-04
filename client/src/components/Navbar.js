@@ -14,6 +14,7 @@ function Navbar({ children }) {
         <div className="navbar-links">
           <Link to="/movies">Movies</Link>
           <Link to="/profile">Profile</Link>
+          <Link to="/watchlists">Watchlist</Link>
         </div>
         {children}
       </div>

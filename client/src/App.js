@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 import { Navigate } from "react-router-dom";
 
 import {
@@ -26,6 +26,7 @@ import ReactPaginate from "react-paginate";
 import { buildMoviesUrl } from "./utils/Util";
 import Watchlist from "./components/Watchlist";
 import Watchlists from "./components/Watchlists";
+
 function App() {
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
@@ -36,7 +37,7 @@ function App() {
   const genre = searchParams.getAll("genre") || [];
 
   const [moviesSaved, setMoviesSaved] = useState([]);
-  const [watchlists, setWatchlists] = useState([]);
+
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
 
@@ -100,8 +101,6 @@ function App() {
               </div>
               <div className="cell3 movie-saved">
                 <Watchlists
-                  watchlists={watchlists}
-                  setWatchlists={setWatchlists}
                   moviesSaved={moviesSaved}
                   setMoviesSaved={setMoviesSaved}
                 />
@@ -131,12 +130,7 @@ function App() {
           }
         />
         <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/watchlists"
-          element={
-            <Watchlists watchlists={watchlists} setWatchlists={setWatchlists} />
-          }
-        />
+        <Route path="/watchlists" element={<Watchlists />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

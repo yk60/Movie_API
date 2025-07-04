@@ -1,11 +1,9 @@
 import Watchlist from "./Watchlist";
+import { useContext } from "react";
+import { WatchlistContext } from "../context/WatchlistContext";
 
-function Watchlists({
-  watchlists,
-  setWatchlists,
-  moviesSaved,
-  setMoviesSaved,
-}) {
+function Watchlists({ moviesSaved, setMoviesSaved }) {
+  const { watchlists, setWatchlists } = useContext(WatchlistContext);
   // filter out the deleted object
   const handleMovieunsave = (id) => {
     setMoviesSaved((prev) => prev.filter((movie) => movie._id !== id));

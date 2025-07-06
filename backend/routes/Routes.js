@@ -19,6 +19,21 @@ const {
   removeMovie,
   removeAllMovies,
 } = require("../controllers/UserController");
+const {
+  createReview,
+  getReview,
+  getAllReviewsFromUser,
+  getAllReviewsForMovie,
+  updateReview,
+  deleteReview,
+} = require("../controllers/ReviewController");
+const {
+  createWatchlist,
+  getWatchlist,
+  getAllWatchlists,
+  updateWatchlist,
+  deleteWatchlist,
+} = require("../controllers/WatchlistController");
 
 // Define routes and connect to controller functions
 // Movie routes
@@ -37,10 +52,25 @@ router.get("/users/", getAllUsers);
 router.put("/users/:userId", updateUser);
 router.delete("/users/:userId", deleteUser);
 
-// User's watchlist routes
+// User's watch history routes
 router.post("/users/:userId/movies/:movieId", addMovie);
 router.delete("/users/:userId/movies/:movieId", removeMovie);
 router.delete("/users/:userId/movies", removeAllMovies);
+
+// Review routes
+router.post("/reviews/", createReview);
+router.get("/reviews/:reviewId", getReview);
+router.get("/users/:userId/reviews", getAllReviewsFromUser);
+router.get("/movies/:movieId/reviews", getAllReviewsForMovie);
+router.put("/reviews/:reviewId", updateReview);
+router.delete("/reviews/:reviewId", deleteReview);
+
+// Watchlist routes
+router.post("/watchlists/", createWatchlist);
+router.get("/watchlists/:watchlistId", getWatchlist);
+router.get("/watchlists/", getAllWatchlists);
+router.put("/watchlists/:watchlistId", updateWatchlist);
+router.delete("/watchlists/:watchlistId", deleteWatchlist);
 
 router.use((req, res) => {
   res.status(404).json({ error: "API endpoint not found" });

@@ -12,6 +12,7 @@ const { fetchAndSaveMovies } = require("../controllers/fetchdata");
 const {
   createUser,
   getUser,
+  getAllUsers,
   updateUser,
   deleteUser,
   addMovie,
@@ -32,6 +33,7 @@ router.get("/fetch-movies", fetchAndSaveMovies);
 // User routes
 router.post("/users/", createUser);
 router.get("/users/:userId", getUser);
+router.get("/users/", getAllUsers);
 router.put("/users/:userId", updateUser);
 router.delete("/users/:userId", deleteUser);
 

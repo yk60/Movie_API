@@ -23,6 +23,19 @@ const getUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (!users) {
+      return res.status(404).json({ error: "Users not found" });
+    }
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -35,6 +48,7 @@ const updateUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -57,7 +71,7 @@ const addMovie = async (req, res) => {
     }
     const user = await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { watched_movies: movieId } },
+      { $addToSet: { watched_movies: movieId } }, // prevents duplicate insertion
       { new: true }
     ).populate("watched_movies");
 
@@ -108,6 +122,7 @@ const removeAllMovies = async (req, res) => {
 module.exports = {
   createUser,
   getUser,
+  getAllUsers,
   updateUser,
   deleteUser,
   addMovie,

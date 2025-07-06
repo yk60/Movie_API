@@ -1,6 +1,5 @@
 // CRUD operations
 const { Movie } = require("../models/Movie");
-const User = require("../models/User");
 
 const createMovie = async (req, res) => {
   try {
@@ -15,8 +14,8 @@ const createMovie = async (req, res) => {
 
 const getMovie = async (req, res) => {
   try {
-    const { id } = req.params;
-    const movie = await Movie.findById(id).exec();
+    const { movieId } = req.params;
+    const movie = await Movie.findById(movieId).exec();
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }
@@ -60,8 +59,10 @@ const getAllMovies = async (req, res) => {
 
 const updateMovie = async (req, res) => {
   try {
-    const { id } = req.params;
-    const movie = await Movie.findByIdAndUpdate(id, req.body, { new: true });
+    const { movieId } = req.params;
+    const movie = await Movie.findByIdAndUpdate(movieId, req.body, {
+      new: true,
+    });
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }
@@ -73,8 +74,8 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
   try {
-    const { id } = req.params;
-    const movie = await Movie.findByIdAndDelete(id);
+    const { movieId } = req.params;
+    const movie = await Movie.findByIdAndDelete(movieId);
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }

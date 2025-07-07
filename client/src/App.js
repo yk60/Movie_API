@@ -80,7 +80,7 @@ function App() {
   return (
     <div className="App">
       <Navbar>
-        <Searchbar page={page} limit={limit} />
+        <Searchbar page={page} limit={limit} sort={sort} />
       </Navbar>
 
       <Routes>
@@ -96,6 +96,7 @@ function App() {
                   genre={genre}
                   page={page}
                   limit={limit}
+                  sort={sort}
                   moviesSaved={moviesSaved}
                   setMoviesSaved={setMoviesSaved}
                 />

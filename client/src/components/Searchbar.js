@@ -4,7 +4,7 @@ import { useToggle } from "../useToggle";
 import Advsearch from "./Advsearch";
 import { buildMoviesUrl } from "../utils/Util";
 
-function Searchbar({ page, limit }) {
+function Searchbar({ page, limit, sort }) {
   const [query, setQuery] = useState(""); // input in main searchbar
   const [showAdvSearch, toggle] = useToggle(false);
   const [genre, setGenre] = useState([]);
@@ -37,7 +37,7 @@ function Searchbar({ page, limit }) {
   // build the url to update the address in address bar (frontend)
   const handleSearch = () => {
     page = 1;
-    const url = buildMoviesUrl({ query, genre, page, limit });
+    const url = buildMoviesUrl({ query, genre, page, limit, sort });
     navigate(url);
   };
 

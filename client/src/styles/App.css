@@ -73,7 +73,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 8px;
   justify-content: center;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .movie-form {
@@ -97,7 +97,7 @@ body {
   flex-direction: column;
   flex-shrink: 1;
   padding: 16px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   flex-wrap: wrap;
 }
 

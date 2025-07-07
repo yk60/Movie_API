@@ -10,6 +10,7 @@ function PaginatedMovieList({
   genre = [], // default value
   page,
   limit,
+  sort,
   moviesSaved,
   setMoviesSaved,
 }) {
@@ -28,8 +29,8 @@ function PaginatedMovieList({
   };
 
   const fetchMovies = () => {
-    console.log("Fetching movies with", { query, genre, page, limit });
-    let url = buildMoviesUrl({ query, genre, page, limit });
+    console.log("Fetching movies with", { query, genre, page, limit, sort });
+    let url = buildMoviesUrl({ query, genre, page, limit, sort });
     fetch("http://localhost:3000" + url)
       .then((res) => res.json())
       .then((data) => {
@@ -43,7 +44,7 @@ function PaginatedMovieList({
   // build the url for API GET request
   useEffect(() => {
     fetchMovies();
-  }, [query, genre, page, limit]);
+  }, [query, genre, page, limit, sort]);
 
   return (
     <div>

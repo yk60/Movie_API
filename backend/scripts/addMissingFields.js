@@ -22,6 +22,11 @@ async function addMissingFields() {
     { $set: { reviews: [] } }
   );
 
+  await User.updateMany(
+    { profile: { $exists: false } },
+    { $set: { profile: {} } }
+  );
+
   console.log("Migration complete.");
   await mongoose.disconnect();
 }

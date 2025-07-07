@@ -1,5 +1,6 @@
 const { User } = require("../models/User");
 const { Movie } = require("../models/Movie");
+const { Watchlist } = require("../models/Watchlist");
 
 const createUser = async (req, res) => {
   try {
@@ -72,7 +73,7 @@ const addMovie = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       userId,
       { $addToSet: { watched_movies: movieId } }, // prevents duplicate insertion
-      { new: true }
+      { new: true } // return the updated document so that the client immediately sees the change
     ).populate("watched_movies");
 
     res.status(200).json(user);

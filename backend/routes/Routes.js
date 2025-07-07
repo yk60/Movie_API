@@ -39,7 +39,7 @@ const {
 // Define routes and connect to controller functions
 // Movie routes
 router.post("/movies/", createMovie);
-router.get("/movies/", getAllMovies);
+router.get("/movies/", getAllMovies); // Supports optional query params
 router.delete("/movies/", deleteAllMovies);
 router.get("/movies/:movieId", getMovie);
 router.put("/movies/:movieId", updateMovie);

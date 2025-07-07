@@ -30,6 +30,7 @@ const {
 const {
   createWatchlist,
   getWatchlist,
+  getAllWatchlistsFromUser,
   getAllWatchlists,
   updateWatchlist,
   deleteWatchlist,
@@ -68,6 +69,7 @@ router.delete("/reviews/:reviewId", deleteReview);
 // Watchlist routes
 router.post("/watchlists/", createWatchlist);
 router.get("/watchlists/:watchlistId", getWatchlist);
+router.get("/users/:userId/watchlists/", getAllWatchlistsFromUser);
 router.get("/watchlists/", getAllWatchlists);
 router.put("/watchlists/:watchlistId", updateWatchlist);
 router.delete("/watchlists/:watchlistId", deleteWatchlist);

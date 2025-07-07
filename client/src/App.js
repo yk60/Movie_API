@@ -20,7 +20,7 @@ import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
 import { useToggle } from "./useToggle";
 import Popup from "./components/Popup";
-import SearchResult from "./components/SearchResult";
+import PaginatedMovieList from "./components/PaginatedMovieList";
 import PageNotFound from "./components/PageNotFound";
 import ReactPaginate from "react-paginate";
 import { buildMoviesUrl } from "./utils/Util";
@@ -40,6 +40,7 @@ function App() {
 
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
+  const sort = searchParams.get("sort") || "recent";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,9 +61,8 @@ function App() {
     if (
       location.pathname === "/movies" &&
       !searchParams.get("page") &&
-      !searchParams.get("limit")
-      // !searchParams.get("query") &&
-      // !searchParams.get("genre")
+      !searchParams.get("limit") &&
+      !searchParams.get("sort")
     ) {
       console.log("App useEffect: setting default page and limit");
 
@@ -71,6 +71,7 @@ function App() {
       params.set("limit", limit);
       params.set("query", query);
       params.set("genre", genre);
+      params.set("sort", sort);
       navigate(`/movies?${params.toString()}`, { replace: true });
     }
   }, [location.pathname, searchParams, navigate]);
@@ -90,7 +91,7 @@ function App() {
             <div className="container">
               <div className="cell2">
                 <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
-                <SearchResult
+                <PaginatedMovieList
                   query={query}
                   genre={genre}
                   page={page}

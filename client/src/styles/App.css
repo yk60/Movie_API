@@ -13,17 +13,15 @@ body {
 
 /* container of css grid */
 .container {
-  padding-top: 60px;
   display: grid;
   grid-template-columns: [col1] 15% [col2] auto [col3] 15% [col4];
   grid-template-rows: [row1] auto [row2];
-  gap: 16px;
+  gap: 8px;
   background: #f7f7fa;
-  /* padding: 16px; */
   min-height: 100vh;
   height: auto;
   overflow: visible;
-  padding-block: 2rem;
+  padding-top: 10px;
   margin-inline: auto;
   overflow: visible;
 }
@@ -32,7 +30,7 @@ body {
 .cell2,
 .cell3 {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 1px 6px rgba(108, 99, 255, 0.04);
   border: 1px solid #ece9f7;
 }
@@ -45,9 +43,22 @@ body {
 .cell2 {
   grid-column: col2 / col3;
   grid-row: row1 / row2;
-  overflow: visible;
+  /* overflow: visible; */
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
 }
+
+.cell2-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
 .cell2-header {
   display: flex;
   justify-content: space-between;
@@ -67,10 +78,17 @@ body {
   background: #ececec;
 }
 
+.movie-list-flex {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .movie-list {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 8px;
   justify-content: center;
   overflow: visible;
@@ -164,7 +182,7 @@ body {
 .navbar {
   width: 100%;
   min-width: 0;
-  height: 60px;
+  height: 80px;
   display: flex;
   flex-direction: row;
   align-items: center; /* vertical centering */
@@ -255,12 +273,14 @@ body {
 }
 
 .pagination {
+  margin-top: auto;
+  background: #eee;
   display: flex;
   flex-direction: row;
   list-style: none;
   padding: 0;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
 }
 
 .pagination li {

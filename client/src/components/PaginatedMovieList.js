@@ -47,7 +47,7 @@ function PaginatedMovieList({
   }, [query, genre, page, limit, sort]);
 
   return (
-    <div>
+    <div className="cell2-content">
       <div className="cell2-header">
         <div className="search-result-range">
           {`${start} - ${end} of ${total} results`}
@@ -81,12 +81,13 @@ function PaginatedMovieList({
           </div>
         </div>
       </div>
-
-      <MovieList
-        movies={movies}
-        moviesSaved={moviesSaved}
-        setMoviesSaved={setMoviesSaved}
-      />
+      <div className="movie-list-flex">
+        <MovieList
+          movies={movies}
+          moviesSaved={moviesSaved}
+          setMoviesSaved={setMoviesSaved}
+        />
+      </div>
       <div className="pagination">
         <ReactPaginate
           previousLabel={"Previous"}

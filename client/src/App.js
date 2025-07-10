@@ -34,7 +34,7 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
-  const genre = searchParams.getAll("genre") || [];
+  const genre = searchParams.getAll("genre").filter((g) => g && g.trim()); // filter out null and whitespace
 
   const [moviesSaved, setMoviesSaved] = useState([]);
 
@@ -44,15 +44,6 @@ function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Any time user navigates to other pages out of /search, reset searchParams
-  useEffect(() => {
-    if (location.pathname !== "/movies") {
-      searchParams.delete("query");
-      searchParams.delete("genre");
-      setSearchParams(searchParams);
-    }
-  }, [location.pathname]);
 
   // set default values to searchparams
   useEffect(() => {
@@ -69,8 +60,6 @@ function App() {
       const params = new URLSearchParams(searchParams);
       params.set("page", page);
       params.set("limit", limit);
-      params.set("query", query);
-      params.set("genre", genre);
       params.set("sort", sort);
       navigate(`/movies?${params.toString()}`, { replace: true });
     }

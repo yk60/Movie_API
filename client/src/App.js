@@ -26,6 +26,8 @@ import ReactPaginate from "react-paginate";
 import { buildMoviesUrl } from "./utils/Util";
 import Watchlist from "./components/Watchlist";
 import Watchlists from "./components/Watchlists";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   const [users, setUsers] = useState([]); // all users
@@ -122,6 +124,8 @@ function App() {
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/watchlists" element={<Watchlists />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

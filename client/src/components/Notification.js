@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function Popup({ message, duration = 500, onDone }) {
+function Notification({ message, duration = 500, onDone }) {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
@@ -13,10 +13,10 @@ function Popup({ message, duration = 500, onDone }) {
   if (!message) return null;
 
   return (
-    <div className="popup">
+    <div className="notification">
       <p>{message}</p>
     </div>
   );
 }
 
-export default Popup;
+export default Notification;

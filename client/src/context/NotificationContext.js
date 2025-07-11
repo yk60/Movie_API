@@ -3,9 +3,9 @@ import { createContext, useState } from "react";
 export const NotificationContext = createContext();
 
 export function NotificationProvider({ children }) {
-  const [popupMsg, setPopupMsg] = useState("");
+  const [notification, setNotification] = useState("");
   return (
-    <NotificationContext.Provider value={{ popupMsg, setPopupMsg }}>
+    <NotificationContext.Provider value={{ notification, setNotification }}>
       {children}
     </NotificationContext.Provider>
   );

@@ -1,4 +1,4 @@
-export function buildMoviesUrl({ query, genre = [], page, limit, sort }) {
+export function buildMoviesUrl({ query = "", genre = [], page, limit, sort }) {
   const params = [];
   if (query && query.trim()) params.push(`query=${encodeURIComponent(query)}`);
   if (genre && genre.length > 0) {

@@ -19,7 +19,7 @@ import Profile from "./components/Profile";
 import Navbar from "./components/Navbar";
 import Searchbar from "./components/Searchbar";
 import { useToggle } from "./useToggle";
-import Popup from "./components/Popup";
+import Notification from "./components/Notification";
 import PaginatedMovieList from "./components/PaginatedMovieList";
 import PageNotFound from "./components/PageNotFound";
 import ReactPaginate from "react-paginate";
@@ -28,11 +28,12 @@ import Watchlist from "./components/Watchlist";
 import Watchlists from "./components/Watchlists";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import { NotificationContext } from "./context/NotificationContext";
 
 function App() {
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
-  const [popupMsg, setPopupMsg] = useState("");
+  const { notification, setNotification } = useContext(NotificationContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
@@ -81,7 +82,10 @@ function App() {
           element={
             <div className="container">
               <div className="cell2">
-                <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
+                <Notification
+                  message={notification}
+                  onDone={() => setNotification("")}
+                />
                 <PaginatedMovieList
                   query={query}
                   genre={genre}
@@ -106,8 +110,8 @@ function App() {
                 </button>
                 {showForm && (
                   <MovieForm
-                    popupMsg={popupMsg}
-                    setPopupMsg={setPopupMsg}
+                    notification={notification}
+                    setNotification={setNotification}
                     toggle={toggle}
                   />
                 )}
@@ -119,7 +123,10 @@ function App() {
         <Route
           path="/movies/:id"
           element={
-            <MovieDetail popupMsg={popupMsg} setPopupMsg={setPopupMsg} />
+            <MovieDetail
+              notification={notification}
+              setNotification={setNotification}
+            />
           }
         />
         <Route path="/profile" element={<Profile />} />

@@ -52,7 +52,7 @@ function MovieForm(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        props.setPopupMsg("Added new movie");
+        props.setNotification("Added new movie");
         navigate("/movies");
         props.toggle();
       })

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
-import Popup from "./Popup";
+import Notification from "./Notification";
 
 function Movie_detail(props) {
   const { id } = useParams();
@@ -50,7 +50,7 @@ function Movie_detail(props) {
         setDraft(data);
         setMovie(data);
         toggle();
-        props.setPopupMsg("Saved changes");
+        props.setNotification("Saved changes");
       })
       .catch((err) => console.error(err));
   };
@@ -61,21 +61,24 @@ function Movie_detail(props) {
         method: "DELETE",
       });
       if (res.ok) {
-        props.setPopupMsg("Deleted movie");
+        props.setNotification("Deleted movie");
         navigate("/movies");
       } else {
-        props.setPopupMsg("Error deleting movie");
+        props.setNotification("Error deleting movie");
       }
     } catch (err) {
       console.error(err);
-      props.setPopupMsg("Error deleting movie");
+      props.setNotification("Error deleting movie");
     }
   };
 
   return (
     <div className="container">
       <div className="cell2">
-        <Popup message={props.popupMsg} onDone={() => props.setPopupMsg("")} />
+        <Notification
+          message={props.notification}
+          onDone={() => props.setNotification("")}
+        />
         {/* wrapper for the entire content in page */}
         <div className="movie-detail-container">
           <div>

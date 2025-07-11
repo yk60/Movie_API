@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
-import Popup from "./Popup.js";
+import Notification from "./Notification.js";
 import "../styles/Login.css";
 
 function Login() {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
-  const { popupMsg, setPopupMsg } = useContext(NotificationContext);
+  const { notification, setNotification } = useContext(NotificationContext);
 
   // local states
   const [username, setUsername] = useState("");
@@ -48,7 +48,7 @@ function Login() {
           username: data.user.username,
         });
         setIsAuthenticated(true);
-        setPopupMsg("Signed in");
+        setNotification("Signed in");
         setTimeout(() => {
           navigate("/movies");
         }, 500);
@@ -63,7 +63,7 @@ function Login() {
 
   return (
     <div className="auth-container">
-      <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
+      <Notification message={notification} onDone={() => setNotification("")} />
 
       <h2>Login</h2>
       <form className="auth-form" onSubmit={handleSubmit}>

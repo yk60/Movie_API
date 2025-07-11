@@ -1,6 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar({ children }) {
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const handleHomeClick = () => {
     navigate("/");
@@ -19,7 +23,9 @@ function Navbar({ children }) {
         {children}
       </div>
       <div className="navbar-links">
-        <Link to="/auth/login">Login</Link>
+        <Link to="/auth/login">
+          {user && isAuthenticated ? `Hello ${user.username}` : "Login"}
+        </Link>
       </div>
     </div>
   );

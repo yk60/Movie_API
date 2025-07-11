@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 import Notification from "./Notification.js";
 import "../styles/Login.css";
@@ -15,6 +16,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,6 +52,10 @@ function Register() {
     setError("");
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="auth-container">
       <Notification message={notification} onDone={() => setNotification("")} />
@@ -70,18 +76,33 @@ function Register() {
           onChange={(e) => setUsername(e.target.value)}
           autoComplete="username"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="new-password"
-        />
+        <div style={{ position: "relative", width: "100%" }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              paddingRight: "48px",
+            }}
+          />
+          <button
+            className="show-password-btn"
+            type="button"
+            onClick={toggleShowPassword}
+            tabIndex={-1}
+          >
+            {showPassword ? <BsEyeSlash /> : <BsEye />}
+          </button>
+        </div>
         {error && <div className="auth-error">{error}</div>}
         <button type="submit">Sign Up</button>
         <span style={{ textAlign: "center", marginTop: "8px" }}>
           <a
-            href="/login"
+            href="/auth/login"
             style={{
               color: "#6c63ff",
               textDecoration: "underline",

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
 import Notification from "./Notification.js";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 import "../styles/Login.css";
 
 function Login() {
@@ -15,6 +16,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -61,6 +63,10 @@ function Login() {
     navigate("/auth/register");
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="auth-container">
       <Notification message={notification} onDone={() => setNotification("")} />
@@ -74,13 +80,28 @@ function Login() {
           onChange={(e) => setUsername(e.target.value)}
           autoComplete="username"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-        />
+        <div style={{ position: "relative", width: "100%" }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              paddingRight: "48px",
+            }}
+          />
+          <button
+            className="show-password-btn"
+            type="button"
+            onClick={toggleShowPassword}
+            tabIndex={-1}
+          >
+            {showPassword ? <BsEyeSlash /> : <BsEye />}
+          </button>
+        </div>
         {error && <div className="auth-error">{error}</div>}
         <div className="auth-buttons-wrapper">
           <button onClick={handleSignupClick}>Sign Up</button>

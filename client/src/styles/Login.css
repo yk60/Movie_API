@@ -45,3 +45,19 @@
   justify-content: center;
   gap: 25px;
 }
+
+.show-password-btn,
+.show-password-btn:hover,
+.show-password-btn:focus {
+  all: unset;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #6c63ff;
+  font-size: 1.1rem;
+}

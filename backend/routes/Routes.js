@@ -19,6 +19,7 @@ const {
   removeMovie,
   removeAllMovies,
 } = require("../controllers/UserController");
+const { register, login } = require("../controllers/AuthController");
 const {
   createReview,
   getReview,
@@ -52,6 +53,12 @@ router.get("/users/:userId", getUser);
 router.get("/users/", getAllUsers);
 router.put("/users/:userId", updateUser);
 router.delete("/users/:userId", deleteUser);
+
+// Authentication routes
+router.post("/auth/register", register);
+router.post("/auth/login", login);
+// router.post("/auth/logout", logout);
+// router.post("/auth/refresh", refresh);
 
 // User's watch history routes
 router.post("/users/:userId/movies/:movieId", addMovie);

@@ -124,8 +124,8 @@ function App() {
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/watchlists" element={<Watchlists />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>

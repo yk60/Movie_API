@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 import "../styles/Login.css";
 
 function Login() {
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
+  // local states
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -11,13 +17,33 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Dummy validation, replace with real API call
     if (!username || !password) {
       setError("Please enter both username and password.");
       return;
     }
+    // make post request to /auth/login endpoint
+    fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          return;
+        }
+        console.log(data);
+        setUser({
+          userId: data.user.id,
+          name: data.user.name,
+          username: data.user.username,
+        });
+        setIsAuthenticated(true);
+        console.log("Successfully signed in: ", user);
+      })
+      .catch((err) => console.error(err));
     setError("");
-    // if (onLogin) onLogin({ username, password });
   };
 
   const handleSignupClick = () => {

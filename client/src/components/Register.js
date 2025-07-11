@@ -1,22 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/Login.css";
 
 function Register() {
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log("Successfully created a new account: ", user);
+    }
+  }, [user, isAuthenticated]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !password || !name) {
+    if (!name || !username || !password) {
       setError("Please fill in all fields.");
       return;
     }
+    fetch("http://localhost:3000/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, username, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          return;
+        }
+        console.log("test:", data);
+        setUser({
+          userId: data.user.id,
+          name: data.user.name,
+          username: data.user.username,
+        });
+        setIsAuthenticated(true);
+      })
+      .catch((err) => console.error(err));
     setError("");
-    // if (onSignup) onSignup({ name, username, password });
   };
 
   return (

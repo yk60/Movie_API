@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-
 import "../styles/Login.css";
 
 function Login() {
@@ -47,7 +46,7 @@ function Login() {
   };
 
   const handleSignupClick = () => {
-    navigate("/register");
+    navigate("/auth/register");
   };
 
   return (

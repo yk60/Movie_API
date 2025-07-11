@@ -9,7 +9,13 @@ const register = async (req, res) => {
     }
     const newUser = await User.create(req.body);
     console.log(newUser);
-    res.status(201).json(newUser);
+    res.status(201).json({
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        username: newUser.username,
+      },
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -31,12 +37,10 @@ const login = async (req, res) => {
 
     const payload = { id: user._id, username: user.username };
     const token = createToken(payload);
-    res
-      .status(200)
-      .json({
-        token,
-        user: { id: user._id, name: user.name, username: user.username },
-      });
+    res.status(200).json({
+      token,
+      user: { id: user._id, name: user.name, username: user.username },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

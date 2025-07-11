@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { NotificationContext } from "../context/NotificationContext";
+import Popup from "./Popup.js";
 import "../styles/Login.css";
 
 function Login() {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
+  const { popupMsg, setPopupMsg } = useContext(NotificationContext);
+
   // local states
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +18,11 @@ function Login() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log("Successfully signed in: ", user);
+    }
+  }, [user, isAuthenticated]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!username || !password) {
@@ -39,7 +48,10 @@ function Login() {
           username: data.user.username,
         });
         setIsAuthenticated(true);
-        console.log("Successfully signed in: ", user);
+        setPopupMsg("Signed in");
+        setTimeout(() => {
+          navigate("/movies");
+        }, 500);
       })
       .catch((err) => console.error(err));
     setError("");
@@ -51,6 +63,8 @@ function Login() {
 
   return (
     <div className="auth-container">
+      <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
+
       <h2>Login</h2>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input

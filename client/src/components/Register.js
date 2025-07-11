@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { NotificationContext } from "../context/NotificationContext";
+
+import Popup from "./Popup.js";
 import "../styles/Login.css";
 
 function Register() {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
+  const { popupMsg, setPopupMsg } = useContext(NotificationContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -37,13 +41,10 @@ function Register() {
           setError(data.error);
           return;
         }
-        console.log("test:", data);
-        setUser({
-          userId: data.user.id,
-          name: data.user.name,
-          username: data.user.username,
-        });
-        setIsAuthenticated(true);
+        setPopupMsg("Account created");
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 500);
       })
       .catch((err) => console.error(err));
     setError("");
@@ -51,6 +52,8 @@ function Register() {
 
   return (
     <div className="auth-container">
+      <Popup message={popupMsg} onDone={() => setPopupMsg("")} />
+
       <h2>Sign Up</h2>
       <form className="auth-form" onSubmit={handleSubmit}>
         <input

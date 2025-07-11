@@ -15,9 +15,11 @@ function Navbar({ children }) {
           <Link to="/movies">Movies</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/watchlists">Watchlist</Link>
-          <Link to="/auth/login">Login</Link>
         </div>
         {children}
+      </div>
+      <div className="navbar-links">
+        <Link to="/auth/login">Login</Link>
       </div>
     </div>
   );

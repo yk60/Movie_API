@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function Popup({ message, duration = 2000, onDone }) {
+function Popup({ message, duration = 500, onDone }) {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {

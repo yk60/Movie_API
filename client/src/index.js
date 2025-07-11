@@ -6,15 +6,18 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { WatchlistProvider } from "./context/WatchlistContext";
 import { AuthProvider } from "./context/AuthContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <AuthProvider>
-      <WatchlistProvider>
-        <App />
-      </WatchlistProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <WatchlistProvider>
+          <App />
+        </WatchlistProvider>
+      </AuthProvider>
+    </NotificationProvider>
   </BrowserRouter>
 );
 

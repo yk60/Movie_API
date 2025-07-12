@@ -6,9 +6,11 @@ A full-stack movie database app built with the MERN stack, showcasing RESTful AP
 
 ## Main Features
 
-- **Automated Import:** Integrate external TMDb API into MongoDB.
-- **RESTful API:** Supports full CRUD operations, advanced search, multi-genre filtering, and efficient pagination.
-- **Modern React Frontend:** Browse, search, and manage movies with a responsive UI, paginated lists, and dynamic routing.
+- **JWT Authentication & Auth-Based Access:** Secure login/register endpoints and protected API actions based on sign-in status.
+- **RESTful API:** Full CRUD, advanced search, multi-genre filtering, sorting, and pagination for movies.
+- **Modern React Frontend:** Responsive UI with dynamic routing and notifications
+- **User Watchlists & Reviews:** Create, manage, and track watchlists and reviews per user.
+- **TMDb Import:** Fetch and update movie data from the TMDb API.
 
 ## Frontend setup
 
@@ -32,7 +34,7 @@ To fetch new movies (optional)
 http://localhost:3000/fetch-movies
 ```
 
-## Data Migration
+Data Migration
 
 If you update the Mongoose schemas and want to ensure all existing documents have the new fields, run the migration script:
 

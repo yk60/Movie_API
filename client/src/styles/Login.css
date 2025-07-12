@@ -61,3 +61,12 @@
   color: #6c63ff;
   font-size: 1.1rem;
 }
+
+.profile-icon {
+  font-size: 1.7rem;
+  color: #6c63ff;
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: color 0.2s, transform 0.15s;
+  cursor: pointer;
+}

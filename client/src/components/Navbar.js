@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { CgProfile } from "react-icons/cg";
+import "../styles/Login.css";
 
 function Navbar({ children }) {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
@@ -17,16 +19,24 @@ function Navbar({ children }) {
       <div className="navbar-content">
         <div className="navbar-links">
           <Link to="/movies">Movies</Link>
-          <Link to="/profile">Profile</Link>
           <Link to="/watchlists">Watchlist</Link>
         </div>
         {children}
       </div>
-      <div className="navbar-links">
-        <Link to="/auth/login">
-          {user && isAuthenticated ? `Hello ${user.username}` : "Login"}
-        </Link>
-      </div>
+      {user && isAuthenticated ? (
+        <>
+          <div className="navbar-links">
+            <Link to="/profile">{`Hello ${user.username}`}</Link>
+          </div>
+          <CgProfile className="profile-icon" />
+        </>
+      ) : (
+        <>
+          <div className="navbar-links">
+            <Link to="/auth/login">Sign In</Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -21,21 +21,26 @@ function Profile() {
   };
 
   return (
-    <div>
-      <Notification message={notification} onDone={() => setNotification("")} />
-      {!user || !isAuthenticated ? (
-        <>
-          <div>Sign in to view your profile</div>
-          <button onClick={handleSignin}>Sign in</button>
-        </>
-      ) : (
-        <>
-          <h2>ID: {user.userId}</h2>
-          <h2>name: {user.name}</h2>
-          <h2>username: {user.username}</h2>
-          <button onClick={handleSignout}>Sign out</button>
-        </>
-      )}
+    <div className="container">
+      <div className="cell2">
+        <Notification
+          message={notification}
+          onDone={() => setNotification("")}
+        />
+        {!user || !isAuthenticated ? (
+          <>
+            <div>Sign in to view your profile</div>
+            <button onClick={handleSignin}>Sign In</button>
+          </>
+        ) : (
+          <>
+            <h2>ID: {user.userId}</h2>
+            <h2>name: {user.name}</h2>
+            <h2>username: {user.username}</h2>
+            <button onClick={handleSignout}>Sign Out</button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

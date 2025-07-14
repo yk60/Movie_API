@@ -24,7 +24,7 @@ function Navbar({ children }) {
     }
   };
   return (
-    <div className={`navbar ${theme === "Dark" && "dark-mode"}`}>
+    <div className="navbar">
       <div className="App-name" onClick={handleHomeClick}>
         Welcome to Movies API
       </div>

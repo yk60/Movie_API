@@ -11,6 +11,7 @@ import {
 import "./styles/App.css";
 import "./styles/Movie-card.css";
 import "./styles/Movie-detail.css";
+import "./styles/Theme.css";
 import Movie from "./components/Movie";
 import MovieDetail from "./components/MovieDetail";
 import MovieForm from "./components/MovieForm";
@@ -29,11 +30,13 @@ import Watchlists from "./components/Watchlists";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { NotificationContext } from "./context/NotificationContext";
+import { ThemeContext } from "./context/ThemeContext";
 
 function App() {
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
   const { notification, setNotification } = useContext(NotificationContext);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
@@ -70,11 +73,10 @@ function App() {
   console.log("App rendered");
 
   return (
-    <div className="App">
+    <div className={`App ${theme === "Dark" && "dark"}`}>
       <Navbar>
         <Searchbar page={page} limit={limit} sort={sort} />
       </Navbar>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

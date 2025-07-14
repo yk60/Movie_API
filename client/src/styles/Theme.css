@@ -1,4 +1,157 @@
-.dark-mode {
-  background-color: #1f2023;
-  color: #dadada;
+/* dark selector to apply dark mode styles to all child elements */
+.dark,
+.dark body,
+.dark .App {
+  background: #111;
+  color: #f5f5f5;
+}
+
+/* Navbar */
+.dark .navbar {
+  background-color: #181818;
+  color: #f5f5f5;
+  border-bottom: 1px solid #222;
+}
+.dark .navbar a {
+  color: #b39ddb;
+  background: transparent;
+}
+.dark .navbar a:hover {
+  background: #222;
+  color: #fff;
+}
+
+/* Auth container (login/register) */
+.dark .auth-container {
+  background-color: #181818;
+  color: #f5f5f5;
+  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.18);
+}
+.dark .auth-form input {
+  background: #222;
+  color: #fff;
+  border: 1px solid #6c63ff;
+}
+.dark .auth-form input:focus {
+  border-color: #b39ddb;
+  background: #181818;
+}
+
+/* Movie grid cells */
+.dark .cell1,
+.dark .cell2,
+.dark .cell3,
+.dark .grid-col-span-3 {
+  background-color: #181818;
+  color: #f5f5f5;
+  border-color: #222;
+}
+
+/* Movie form */
+.dark .movie-form {
+  background-color: #181818;
+  color: #f5f5f5;
+  border: 1px solid #222;
+}
+
+/* Movie card */
+.dark .movie-card {
+  background: linear-gradient(90deg, #181818 60%, #222 100%);
+  color: #fff;
+  border: 1px solid #222;
+}
+.dark .movie-title {
+  color: #fff;
+}
+.dark .movie-property-row {
+  background: #181818;
+  color: #f5f5f5;
+  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.13);
+}
+
+/* Movie detail */
+.dark .movie-detail-container {
+  background: #111;
+  color: #fff;
+}
+.dark .movie-detail-info {
+  background: transparent;
+  color: #fff;
+}
+.dark .inline-edit-input {
+  background: #222;
+  color: #fff;
+  border-bottom: 1px dashed #b39ddb;
+}
+.dark .inline-edit-input:focus {
+  border-bottom: 1px solid #6c63ff;
+  background: #181818;
+}
+
+/* Notification */
+.dark .notification {
+  background: #222;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(60, 60, 60, 0.18);
+}
+
+/* Watchlist */
+.dark .watchlist {
+  background: #181818;
+  color: #fff;
+  border: 1px solid #222;
+}
+.dark .watchlist-title {
+  color: #b39ddb;
+}
+.dark .watchlist-empty {
+  color: #888;
+}
+
+/* Pagination */
+.dark .pagination {
+  background: #181818;
+}
+.dark .pagination li {
+  color: #b39ddb;
+}
+.dark .pagination li.active {
+  background: #6c63ff;
+  color: #fff;
+}
+
+/* Sort/filter dropdowns */
+.dark .sort-filter-dropdown select {
+  background: #222;
+  color: #f5f5f5;
+  border: 1px solid #6c63ff;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dark .sort-filter-dropdown select:focus {
+  border-color: #b39ddb;
+  background: #181818;
+}
+
+/* Advanced search dropdown */
+.dark .advsearch-dropdown {
+  background: #181818;
+  color: #fff;
+  border: 1px solid #6c63ff;
+}
+
+.dark .advsearch-dropdown label {
+  color: #b39ddb;
+}
+
+.dark .advsearch-dropdown input[type="checkbox"] {
+  accent-color: #6c63ff;
+  background: #222;
+  border: 1px solid #b39ddb;
+}
+
+/* Profile icon */
+.dark .profile-icon {
+  color: #b39ddb;
 }

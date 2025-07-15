@@ -31,13 +31,14 @@ function Navbar({ children }) {
       <div className="navbar-content">
         <div className="navbar-links">
           <Link to="/movies">Movies</Link>
-          <Link to="/watchlists">Watchlist</Link>
+          <Link to="/movies">TV Series</Link>
         </div>
         {children}
       </div>
       {user && isAuthenticated ? (
         <>
           <div className="navbar-links">
+            <Link to="/watchlists">Watchlist</Link>
             <Link to="/profile">{`Hello ${user.username}`}</Link>
           </div>
           <CgProfile className="profile-icon" />

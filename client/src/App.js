@@ -104,6 +104,26 @@ function App() {
           path="/movies"
           element={
             <div className="container">
+              <div className="cell1">
+                {/* Create movie form */}
+                {user && isAuthenticated ? (
+                  <>
+                    {" "}
+                    <button onClick={toggle}>
+                      {showForm ? "Hide Form" : "Show Form"}
+                    </button>
+                    {showForm && (
+                      <MovieForm
+                        notification={notification}
+                        setNotification={setNotification}
+                        toggle={toggle}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <div>Sigin in to add movie</div>
+                )}
+              </div>
               <div className="cell2">
                 <Notification
                   message={notification}
@@ -120,25 +140,17 @@ function App() {
                 />
               </div>
               <div className="cell3 movie-saved">
+                {user && isAuthenticated ? (
+                  <div>My watchlists</div>
+                ) : (
+                  <div>Sign in to create watchlists</div>
+                )}
                 <Watchlists
                   moviesSaved={moviesSaved}
                   setMoviesSaved={setMoviesSaved}
                 />
               </div>
 
-              <div className="cell1">
-                {/* Create movie form */}
-                <button onClick={toggle}>
-                  {showForm ? "Hide Form" : "Show Form"}
-                </button>
-                {showForm && (
-                  <MovieForm
-                    notification={notification}
-                    setNotification={setNotification}
-                    toggle={toggle}
-                  />
-                )}
-              </div>
               <div className="grid-col-span-3"></div>
             </div>
           }

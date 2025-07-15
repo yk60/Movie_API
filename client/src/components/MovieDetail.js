@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
+import { AuthContext } from "../context/AuthContext";
 import Notification from "./Notification";
 
 function Movie_detail(props) {
@@ -11,6 +12,8 @@ function Movie_detail(props) {
   const [editMovie, toggle] = useToggle(false);
 
   const navigate = useNavigate();
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
 
   useEffect(() => {
     fetch(`http://localhost:3000/movies/${id}`)
@@ -151,17 +154,21 @@ function Movie_detail(props) {
             )}
           </div>
 
-          <div className="movie-detail-btn">
-            <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
-            {editMovie && (
-              <div>
-                <button onClick={handleEditReset}>Reset</button>
-                <button onClick={handleEditSave}>Save</button>
-              </div>
-            )}
+          {user && isAuthenticated ? (
+            <div className="movie-detail-btn">
+              <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
+              {editMovie && (
+                <div>
+                  <button onClick={handleEditReset}>Reset</button>
+                  <button onClick={handleEditSave}>Save</button>
+                </div>
+              )}
 
-            <button onClick={handleDeleteMovie}>Delete Movie</button>
-          </div>
+              <button onClick={handleDeleteMovie}>Delete Movie</button>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

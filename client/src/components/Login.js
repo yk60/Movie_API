@@ -44,12 +44,16 @@ function Login() {
           return;
         }
         console.log(data);
-        setUser({
+        const parsedUser = {
           userId: data.user.id,
           name: data.user.name,
           username: data.user.username,
-        });
+        };
+        setUser(parsedUser);
         setIsAuthenticated(true);
+        // save token and user info to local storage so that refresh does not reset auth context
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(parsedUser));
         setNotification("Signed in");
         setTimeout(() => {
           navigate("/movies");

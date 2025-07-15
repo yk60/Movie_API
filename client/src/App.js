@@ -64,10 +64,14 @@ function App() {
   // on app load, updates the authentication status
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
     if (token && !isTokenExpired(token)) {
       setIsAuthenticated(true);
+      setUser(user ? JSON.parse(user) : null);
+      console.log("User is still signed in");
     } else {
       setIsAuthenticated(false);
+      setUser(null);
       console.log("Invalid or expired token. User is signed out");
     }
   }, []);

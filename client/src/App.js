@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import {
   Routes,
@@ -31,10 +32,13 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { NotificationContext } from "./context/NotificationContext";
 import { ThemeContext } from "./context/ThemeContext";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
   const [users, setUsers] = useState([]); // all users
   const [showForm, toggle] = useToggle(false);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
   const { notification, setNotification } = useContext(NotificationContext);
   const { theme, setTheme } = useContext(ThemeContext);
 
@@ -50,6 +54,23 @@ function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  function isTokenExpired(token) {
+    if (!token) return true;
+    const { exp } = jwtDecode(token);
+    return Date.now() >= exp * 1000;
+  }
+
+  // on app load, updates the authentication status
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !isTokenExpired(token)) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+      console.log("Invalid or expired token. User is signed out");
+    }
+  }, []);
 
   // set default values to searchparams
   useEffect(() => {

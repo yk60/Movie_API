@@ -4,12 +4,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
 import { AuthContext } from "../context/AuthContext";
 import Notification from "./Notification";
+import "../styles/Movie-detail.css";
 
 function Movie_detail(props) {
-  const { id } = useParams();
+  const { id } = useParams(); //movieId
   const [movie, setMovie] = useState(null);
   const [draft, setDraft] = useState(null);
-  const [editMovie, toggle] = useToggle(false);
+  const [status, setStatus] = useState("not watched");
+  const [editMovie, editMovieToggle] = useToggle(false);
+  const [showStatus, showStatusToggle] = useToggle(false);
 
   const navigate = useNavigate();
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
@@ -52,7 +55,7 @@ function Movie_detail(props) {
       .then((data) => {
         setDraft(data);
         setMovie(data);
-        toggle();
+        editMovieToggle();
         props.setNotification("Saved changes");
       })
       .catch((err) => console.error(err));
@@ -73,6 +76,36 @@ function Movie_detail(props) {
       console.error(err);
       props.setNotification("Error deleting movie");
     }
+  };
+
+  const handleAddToList = () => {
+    if (user && isAuthenticated) {
+      showStatusToggle(!showStatus);
+    } else {
+      alert("Log in to add to list ");
+    }
+  };
+
+  // add/update/remove movie from user's watch history
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.value;
+    setStatus(newStatus);
+    fetch(`http://localhost:3000/users/${user.userId}/movies/${id}`, {
+      method:
+        newStatus === "watched" || newStatus === "in progress"
+          ? "POST"
+          : "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        showStatusToggle();
+        props.setNotification(`Changed watch status to ${newStatus}`);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -150,13 +183,35 @@ function Movie_detail(props) {
                 )}
                 <h2>{movie.popularity}</h2>
                 <h3>{movie.overview}</h3>
+                <div className="status-wrapper">
+                  <button className="addToListBtn" onClick={handleAddToList}>
+                    Add to List
+                  </button>
+                  {showStatus ? (
+                    <div className="watch-status-dropdown">
+                      <select
+                        id="status"
+                        size="3"
+                        onChange={handleStatusChange}
+                      >
+                        <option value="not watched">Not Watched</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="watched">Watched</option>
+                      </select>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             )}
           </div>
 
           {user && isAuthenticated ? (
             <div className="movie-detail-btn">
-              <button onClick={toggle}>{editMovie ? "Close" : "Edit"}</button>
+              <button onClick={editMovieToggle}>
+                {editMovie ? "Close" : "Edit"}
+              </button>
               {editMovie && (
                 <div>
                   <button onClick={handleEditReset}>Reset</button>

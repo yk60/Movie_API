@@ -69,3 +69,21 @@
   border-bottom: 1px solid #6c63ff;
   background: #f5f5fa;
 }
+
+.status-wrapper {
+  width: 150px;
+}
+.addToListBtn {
+  width: 100%;
+}
+.watch-status-dropdown select {
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(108, 99, 255, 0.08);
+}
+
+.watch-status-dropdown select option:hover,
+.watch-status-dropdown select option:focus {
+  background-color: #6c63ff;
+  border: none;
+}

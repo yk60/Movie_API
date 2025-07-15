@@ -66,13 +66,14 @@ const deleteUser = async (req, res) => {
 const addMovie = async (req, res) => {
   try {
     const { userId, movieId } = req.params;
+    const { status } = req.body;
     const movie = await Movie.findById(movieId).exec();
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }
     const user = await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { watched_movies: movieId } }, // prevents duplicate insertion
+      { $addToSet: { watched_movies: { movie: movieId, status: status } } }, // prevents duplicate insertion
       { new: true } // return the updated document so that the client immediately sees the change
     ).populate("watched_movies");
 
@@ -91,13 +92,14 @@ const removeMovie = async (req, res) => {
     }
     const user = await User.findByIdAndUpdate(
       userId,
-      { $pull: { watched_movies: movieId } },
+      { $pull: { watched_movies: { movie: movieId } } },
       { new: true }
     ).populate("watched_movies");
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
     res.status(200).json(user);
+    console.log("succesfullu removed movie from watch history");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

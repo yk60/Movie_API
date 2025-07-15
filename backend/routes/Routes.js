@@ -36,6 +36,7 @@ const {
   updateWatchlist,
   deleteWatchlist,
 } = require("../controllers/WatchlistController");
+const verifyTokenMiddleware = require("../middleware/AuthMiddleware");
 
 // Define routes and connect to controller functions
 // Movie routes
@@ -49,7 +50,7 @@ router.get("/fetch-movies", fetchAndSaveMovies);
 
 // User routes
 router.post("/users/", createUser);
-router.get("/users/:userId", getUser);
+router.get("/users/:userId", verifyTokenMiddleware, getUser);
 router.get("/users/", getAllUsers);
 router.put("/users/:userId", updateUser);
 router.delete("/users/:userId", deleteUser);

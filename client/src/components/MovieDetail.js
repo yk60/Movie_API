@@ -116,17 +116,10 @@ function Movie_detail(props) {
           onDone={() => props.setNotification("")}
         />
         {/* wrapper for the entire content in page */}
-        <div className="movie-detail-container">
-          <div>
-            <img
-              className="movie-detail-img"
-              src={movie.poster_path}
-              alt="Movie Poster"
-            />
-          </div>
-          <div className="movie-detail-info">
-            {editMovie ? (
-              <div>
+        <div>
+          {editMovie ? (
+            <div className="movie-detail-container">
+              <div className="movie-detail">
                 <label>
                   Title:
                   <input
@@ -137,6 +130,18 @@ function Movie_detail(props) {
                     onChange={handleChange}
                   />
                 </label>
+                <label>
+                  overview:
+                  <input
+                    className="inline-edit-input"
+                    name="overview"
+                    type="text"
+                    value={draft.overview}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className="movie-info">
                 <label>
                   Genre:
                   <input
@@ -161,20 +166,46 @@ function Movie_detail(props) {
                     onChange={handleChange}
                   />
                 </label>
-                <label>
-                  overview:
-                  <input
-                    className="inline-edit-input"
-                    name="overview"
-                    type="text"
-                    value={draft.overview}
-                    onChange={handleChange}
-                  />
-                </label>
               </div>
-            ) : (
-              <div>
-                <h2>{movie.title}</h2>
+            </div>
+          ) : (
+            <div className="movie-detail-container">
+              <div className="movie-detail">
+                <div>
+                  <img
+                    className="movie-detail-img"
+                    src={movie.poster_path}
+                    alt="Movie Poster"
+                  />
+                </div>
+                <div className="movie-detail-text">
+                  <h2>{movie.title}</h2>
+                  <h3>{movie.overview}</h3>
+                  <div className="status-wrapper">
+                    <button className="addToListBtn" onClick={handleAddToList}>
+                      Add to List
+                    </button>
+                    {showStatus ? (
+                      <div className="watch-status-dropdown">
+                        <select
+                          id="status"
+                          size="3"
+                          onChange={handleStatusChange}
+                        >
+                          <option value="not watched">Not Watched</option>
+                          <option value="in progress">In Progress</option>
+                          <option value="watched">Watched</option>
+                        </select>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="movie-info">
+                {" "}
                 <h2>{movie.genre.join(" ")}</h2>
                 {movie.release_date ? (
                   <h2>{movie.release_date.slice(0, 10)}</h2>
@@ -182,47 +213,26 @@ function Movie_detail(props) {
                   ""
                 )}
                 <h2>{movie.popularity}</h2>
-                <h3>{movie.overview}</h3>
-                <div className="status-wrapper">
-                  <button className="addToListBtn" onClick={handleAddToList}>
-                    Add to List
-                  </button>
-                  {showStatus ? (
-                    <div className="watch-status-dropdown">
-                      <select
-                        id="status"
-                        size="3"
-                        onChange={handleStatusChange}
-                      >
-                        <option value="not watched">Not Watched</option>
-                        <option value="in progress">In Progress</option>
-                        <option value="watched">Watched</option>
-                      </select>
+                {user && isAuthenticated ? (
+                  <div className="edit-btns-wrapper">
+                    <div className="edit-delete-btns">
+                      <button onClick={editMovieToggle}>
+                        {editMovie ? "Close" : "Edit"}
+                      </button>
+                      <button onClick={handleDeleteMovie}>Delete Movie</button>
                     </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+                    {editMovie && (
+                      <div className="reset-save-btns">
+                        <button onClick={handleEditReset}>Reset</button>
+                        <button onClick={handleEditSave}>Save</button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
-            )}
-          </div>
-
-          {user && isAuthenticated ? (
-            <div className="movie-detail-btn">
-              <button onClick={editMovieToggle}>
-                {editMovie ? "Close" : "Edit"}
-              </button>
-              {editMovie && (
-                <div>
-                  <button onClick={handleEditReset}>Reset</button>
-                  <button onClick={handleEditSave}>Save</button>
-                </div>
-              )}
-
-              <button onClick={handleDeleteMovie}>Delete Movie</button>
             </div>
-          ) : (
-            <></>
           )}
         </div>
       </div>

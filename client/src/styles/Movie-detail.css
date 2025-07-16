@@ -77,10 +77,17 @@
 .addToListBtn {
   width: 100%;
 }
+
 .watch-status-dropdown select {
   width: 100%;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(108, 99, 255, 0.08);
+}
+
+.watch-status-dropdown select option {
+  height: 20px;
+  padding: 12px 8px;
+  line-height: 1.4;
 }
 
 .watch-status-dropdown select option:hover,

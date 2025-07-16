@@ -113,127 +113,59 @@ function Movie_detail(props) {
       <div className="cell2">
         <Notification
           message={props.notification}
+          duration={3200}
           onDone={() => props.setNotification("")}
         />
-        {/* wrapper for the entire content in page */}
-        <div>
-          {editMovie ? (
-            <div className="movie-detail-container">
-              <div className="movie-detail">
-                <label>
-                  Title:
-                  <input
-                    className="inline-edit-input"
-                    name="title"
-                    type="text"
-                    value={draft.title}
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  overview:
-                  <input
-                    className="inline-edit-input"
-                    name="overview"
-                    type="text"
-                    value={draft.overview}
-                    onChange={handleChange}
-                  />
-                </label>
-              </div>
-              <div className="movie-info">
-                <label>
-                  Genre:
-                  <input
-                    className="inline-edit-input"
-                    name="genre"
-                    type="text"
-                    value={draft.genre}
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  Release Date:
-                  <input
-                    className="inline-edit-input"
-                    name="release_date"
-                    type="text"
-                    value={
-                      draft.release_date
-                        ? new Date(draft.release_date).toLocaleDateString()
-                        : ""
-                    }
-                    onChange={handleChange}
-                  />
-                </label>
+        <div className="movie-detail-container">
+          {/* left side */}
+          <div className="movie-detail">
+            <img
+              className="movie-detail-img"
+              src={movie.poster_path}
+              alt="Movie Poster"
+            />
+            <div className="movie-detail-text">
+              <h2>{movie.title}</h2>
+              <h3>{movie.overview}</h3>
+              <div className="status-wrapper">
+                <button className="addToListBtn" onClick={handleAddToList}>
+                  Add to List
+                </button>
+                {showStatus && (
+                  <div className="watch-status-dropdown">
+                    <select id="status" size="3" onChange={handleStatusChange}>
+                      <option value="not watched">Not Watched</option>
+                      <option value="in progress">In Progress</option>
+                      <option value="watched">Watched</option>
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
-          ) : (
-            <div className="movie-detail-container">
-              <div className="movie-detail">
-                <div>
-                  <img
-                    className="movie-detail-img"
-                    src={movie.poster_path}
-                    alt="Movie Poster"
-                  />
-                </div>
-                <div className="movie-detail-text">
-                  <h2>{movie.title}</h2>
-                  <h3>{movie.overview}</h3>
-                  <div className="status-wrapper">
-                    <button className="addToListBtn" onClick={handleAddToList}>
-                      Add to List
-                    </button>
-                    {showStatus ? (
-                      <div className="watch-status-dropdown">
-                        <select
-                          id="status"
-                          size="3"
-                          onChange={handleStatusChange}
-                        >
-                          <option value="not watched">Not Watched</option>
-                          <option value="in progress">In Progress</option>
-                          <option value="watched">Watched</option>
-                        </select>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                </div>
-              </div>
+          </div>
 
-              <div className="movie-info">
-                {" "}
-                <h2>{movie.genre.join(" ")}</h2>
-                {movie.release_date ? (
-                  <h2>{movie.release_date.slice(0, 10)}</h2>
-                ) : (
-                  ""
-                )}
-                <h2>{movie.popularity}</h2>
-                {user && isAuthenticated ? (
-                  <div className="edit-btns-wrapper">
-                    <div className="edit-delete-btns">
-                      <button onClick={editMovieToggle}>
-                        {editMovie ? "Close" : "Edit"}
-                      </button>
-                      <button onClick={handleDeleteMovie}>Delete Movie</button>
-                    </div>
-                    {editMovie && (
-                      <div className="reset-save-btns">
-                        <button onClick={handleEditReset}>Reset</button>
-                        <button onClick={handleEditSave}>Save</button>
-                      </div>
-                    )}
+          {/* right side */}
+          <div className="movie-info">
+            <h2>{movie.genre.join(" ")}</h2>
+            {movie.release_date && <h2>{movie.release_date.slice(0, 10)}</h2>}
+            <h2>{movie.popularity}</h2>
+            {user && isAuthenticated && (
+              <div className="edit-btns-wrapper">
+                <div className="edit-delete-btns">
+                  <button onClick={editMovieToggle}>
+                    {editMovie ? "Close" : "Edit"}
+                  </button>
+                  <button onClick={handleDeleteMovie}>Delete Movie</button>
+                </div>
+                {editMovie && (
+                  <div className="reset-save-btns">
+                    <button onClick={handleEditReset}>Reset</button>
+                    <button onClick={handleEditSave}>Save</button>
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

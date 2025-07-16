@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function Notification({ message, duration = 500, onDone }) {
+function Notification({ message, duration = 1000, onDone }) {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {

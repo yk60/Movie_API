@@ -7,7 +7,7 @@ body,
 }
 body {
   margin: 0;
-  font-family: Helvetica, serif;
+  font-family: sans-serif, Helvetica, serif;
   background: #f7f7fa;
 }
 
@@ -348,7 +348,6 @@ button {
   box-shadow: 0 1px 4px rgba(108, 99, 255, 0.08);
   transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
   outline: none;
-  margin: 4px 0;
 }
 
 button:hover,
@@ -394,11 +393,33 @@ button:focus {
   text-align: center;
   z-index: 9999;
   display: flex;
-  align-items: center; /* vertical centering */
-  justify-content: center; /* horizontal centering */
+  align-items: center;
+  justify-content: center;
   min-width: 180px;
   min-height: 40px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+  animation: fadeInOut 3.5s ease-out forwards;
+  opacity: 1;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.notification.fade-out {
+  opacity: 0;
 }
 
 .watchlist {

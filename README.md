@@ -1,16 +1,14 @@
 # Movie API
 
-## Project Purpose
-
 A full-stack movie database app built with the MERN stack, showcasing RESTful API development, database integration, and a dynamic UI with search, filtering, and pagination.
 
 ## Main Features
 
 - **JWT Authentication & Auth-Based Access:** Secure login/register endpoints and protected API actions based on sign-in status.
 - **RESTful API:** Full CRUD, advanced search, multi-genre filtering, sorting, and pagination for movies.
-- **Modern React Frontend:** Responsive UI with dynamic routing and notifications
+- **Modern React Frontend:** Responsive UI with dynamic routing and notifications.
 - **User Watchlists & Reviews:** Create, manage, and track watchlists and reviews per user.
-- **TMDb Import:** Fetch and update movie data from the TMDb API.
+- **AI-Powered Recommendations**: Integrated with Meta Llama (via OpenRouter) to provide personalized recommendations.
 
 ## Frontend setup
 

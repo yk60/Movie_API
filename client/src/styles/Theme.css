@@ -30,7 +30,7 @@
 .dark .auth-form input {
   background: #222;
   color: #fff;
-  border: 1px solid #6c63ff;
+  border: 1px solid var(--color-primary);
 }
 .dark .auth-form input:focus {
   border-color: #b39ddb;
@@ -84,7 +84,7 @@
   border-bottom: 1px dashed #b39ddb;
 }
 .dark .inline-edit-input:focus {
-  border-bottom: 1px solid #6c63ff;
+  border-bottom: 1px solid var(--color-primary);
   background: #181818;
 }
 
@@ -116,7 +116,7 @@
   color: #b39ddb;
 }
 .dark .pagination li.active {
-  background: #6c63ff;
+  background: var(--color-primary);
   color: #fff;
 }
 
@@ -124,7 +124,7 @@
 .dark .sort-filter-dropdown select {
   background: #222;
   color: #f5f5f5;
-  border: 1px solid #6c63ff;
+  border: 1px solid var(--color-primary);
   outline: none;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -138,7 +138,7 @@
 .dark .advsearch-dropdown {
   background: #181818;
   color: #fff;
-  border: 1px solid #6c63ff;
+  border: 1px solid var(--color-primary);
 }
 
 .dark .advsearch-dropdown label {
@@ -146,7 +146,7 @@
 }
 
 .dark .advsearch-dropdown input[type="checkbox"] {
-  accent-color: #6c63ff;
+  accent-color: var(--color-primary);
   background: #222;
   border: 1px solid #b39ddb;
 }

@@ -5,6 +5,7 @@ import { useToggle } from "../useToggle";
 import { AuthContext } from "../context/AuthContext";
 import Notification from "./Notification";
 import "../styles/Movie-detail.css";
+import { FaCheckCircle } from "react-icons/fa";
 
 function Movie_detail(props) {
   const { id } = useParams(); //movieId
@@ -125,8 +126,12 @@ function Movie_detail(props) {
               alt="Movie Poster"
             />
             <div className="movie-detail-text">
-              <h2>{movie.title}</h2>
-              <h3>{movie.overview}</h3>
+              <div className="movie-title-wrapper">
+                <h2 className="movie-detail-title">{movie.title}</h2>
+                <FaCheckCircle className="movie-status-icon" />
+              </div>
+
+              <h3 className="movie-overview">{movie.overview}</h3>
               <div className="status-wrapper">
                 <button className="addToListBtn" onClick={handleAddToList}>
                   Add to List
@@ -146,9 +151,20 @@ function Movie_detail(props) {
 
           {/* right side */}
           <div className="movie-info">
-            <h2>{movie.genre.join(" ")}</h2>
-            {movie.release_date && <h2>{movie.release_date.slice(0, 10)}</h2>}
-            <h2>{movie.popularity}</h2>
+            <div>
+              <label className="field-label">Genres</label>
+              <p className="field-value">{movie.genre.join(" ")}</p>
+            </div>
+            <div>
+              <label className="field-label">Release Date</label>
+              {movie.release_date && (
+                <p className="field-value">{movie.release_date.slice(0, 10)}</p>
+              )}
+            </div>
+            <div>
+              <label className="field-label">Popularity</label>
+              <p className="field-value">{movie.popularity}</p>
+            </div>
             {user && isAuthenticated && (
               <div className="edit-btns-wrapper">
                 <div className="edit-delete-btns">

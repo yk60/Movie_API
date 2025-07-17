@@ -71,11 +71,29 @@ const addMovie = async (req, res) => {
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $addToSet: { watched_movies: { movie: movieId, status: status } } }, // prevents duplicate insertion
-      { new: true } // return the updated document so that the client immediately sees the change
+
+    // if movie exists, then update watch status
+    let user = await User.findOneAndUpdate(
+      {
+        _id: userId,
+        "watched_movies.movie": movieId,
+      },
+      {
+        $set: { "watched_movies.$.status": status },
+      },
+      { new: true }
     ).populate("watched_movies");
+
+    // else, add movie
+    if (!user) {
+      user = await User.findByIdAndUpdate(
+        userId,
+        {
+          $push: { watched_movies: { movie: movieId, status: status } },
+        },
+        { new: true }
+      ).populate("watched_movies");
+    }
 
     res.status(200).json(user);
   } catch (err) {

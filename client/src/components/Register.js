@@ -5,6 +5,7 @@ import { NotificationContext } from "../context/NotificationContext";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 import Notification from "./Notification.js";
+import "../styles/App.css";
 import "../styles/Login.css";
 
 function Register() {
@@ -104,7 +105,7 @@ function Register() {
           <a
             href="/auth/login"
             style={{
-              color: "#6c63ff",
+              color: "var(--color-primary);",
               textDecoration: "underline",
               cursor: "pointer",
             }}

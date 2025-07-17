@@ -28,7 +28,7 @@
 }
 
 .auth-form input:focus {
-  border-color: #6c63ff;
+  border-color: var(--color-primary);
   background: #fff;
 }
 
@@ -58,13 +58,13 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  color: #6c63ff;
+  color: var(--color-primary);
   font-size: 1.1rem;
 }
 
 .profile-icon {
   font-size: 1.7rem;
-  color: #6c63ff;
+  color: var(--color-primary);
   margin-left: 8px;
   vertical-align: middle;
   transition: color 0.2s, transform 0.15s;

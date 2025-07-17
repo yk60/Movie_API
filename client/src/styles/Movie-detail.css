@@ -4,9 +4,9 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  background: #8dbd3b;
   min-height: 800px;
   padding: 40px;
+  box-sizing: border-box;
 }
 
 .movie-detail {
@@ -52,6 +52,54 @@
   flex-direction: row;
 }
 
+/* Text content styling */
+.movie-title-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.movie-detail-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+}
+
+.movie-status-icon {
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.movie-overview {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.field-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px 0;
+  display: block;
+}
+
+.field-value {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #444;
+  margin: 0 0 20px 0;
+  line-height: 1.4;
+}
+
 .inline-edit-input {
   font-size: 1.3rem;
   font-family: inherit;
@@ -67,7 +115,7 @@
 }
 
 .inline-edit-input:focus {
-  border-bottom: 1px solid #6c63ff;
+  border-bottom: 1px solid var(--color-primary);
   background: #f5f5fa;
 }
 
@@ -92,6 +140,6 @@
 
 .watch-status-dropdown select option:hover,
 .watch-status-dropdown select option:focus {
-  background-color: #6c63ff;
+  background-color: var(--color-primary);
   border: none;
 }

@@ -24,7 +24,7 @@
   object-fit: cover;
   display: block;
   border-bottom: none;
-  background: #4b3bbd;
+  background: var(--color-primary-dark);
 }
 
 .movie-title {

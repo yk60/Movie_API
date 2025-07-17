@@ -9,6 +9,8 @@ body,
   --color-primary: #6c63ff;
   --color-primary-dark: #4b3bbd;
   --color-primary-light: #b39ddb;
+  --color-background: #f7f7fa;
+  --color-text: #222;
 }
 body {
   margin: 0;

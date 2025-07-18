@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import Notification from "./Notification";
 import { RiProgress3Line } from "react-icons/ri";
 import { FaCheckCircle } from "react-icons/fa";
+import { MdOutlineCancel } from "react-icons/md";
 import makeRequest from "../services/LLMService";
 import Chat from "./Chat";
 import "../styles/Movie-detail.css";
@@ -23,16 +24,40 @@ function Movie_detail(props) {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
 
+  const getWatchStatus = () => {
+    const token = localStorage.getItem("token");
+
+    fetch(`http://localhost:3000/users/${user.userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const movie = data.watched_movies.find((m) => m.movie == id);
+        if (movie) {
+          setStatus(movie.status);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:3000/movies/${id}`)
+    fetch(`http://localhost:3000/movies/${id}`, {
+      method: "GET",
+    })
       .then((res) => res.json())
       .then((data) => {
         setMovie(data);
         setDraft(data); // create copy of movie data
-        console.log(data);
+        if (user && isAuthenticated) {
+          getWatchStatus();
+        }
       })
       .catch((err) => console.error(err));
-  }, [id]); // runs once or whenever id changes
+  }, [id, user, status]); // runs once or whenever id changes
 
   if (!movie) return <div>Loading...</div>;
 
@@ -91,16 +116,6 @@ function Movie_detail(props) {
     }
   };
 
-  // make GET request
-  // const getWatchStatus = () => {
-  //   fetch(`http://localhost:3000/users/${user.userId}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setStatus(data.status);
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
   // add/update/remove movie from user's watch history
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -143,8 +158,13 @@ function Movie_detail(props) {
               <div className="movie-detail-text">
                 <div className="movie-title-wrapper">
                   <h2 className="movie-detail-title">{movie.title}</h2>
-
-                  <FaCheckCircle className="movie-status-icon" />
+                  {status === "watched" ? (
+                    <FaCheckCircle className="movie-status-icon" />
+                  ) : status === "in progress" ? (
+                    <RiProgress3Line className="movie-status-icon" />
+                  ) : (
+                    <MdOutlineCancel className="movie-status-icon" />
+                  )}
                 </div>
 
                 <h3 className="movie-overview">{movie.overview}</h3>

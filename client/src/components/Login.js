@@ -56,7 +56,7 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(parsedUser));
         setNotification("Signed in");
         setTimeout(() => {
-          navigate("/movies");
+          navigate(-1); // navigate to last opened page
         }, 500);
       })
       .catch((err) => console.error(err));

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
+import ProfileImage from "./ProfileImage";
 import { CgProfile } from "react-icons/cg";
 import "../styles/Login.css";
 import "../styles/Theme.css";
@@ -32,17 +33,14 @@ function Navbar({ children }) {
         <div className="navbar-links">
           <Link to="/movies">Movies</Link>
           <Link to="/movies">TV Series</Link>
+          <Link to="/watchlists">Watchlist</Link>
         </div>
         {children}
       </div>
       {user && isAuthenticated ? (
-        <>
-          <div className="navbar-links">
-            <Link to="/watchlists">Watchlist</Link>
-            <Link to="/profile">{`Hello ${user.username}`}</Link>
-          </div>
-          <CgProfile className="profile-icon" />
-        </>
+        <div onClick={() => navigate("/profile")}>
+          <ProfileImage name={user.name} size="small" />
+        </div>
       ) : (
         <>
           <div className="navbar-links">
@@ -50,6 +48,7 @@ function Navbar({ children }) {
           </div>
         </>
       )}
+
       <button onClick={handleChangeTheme}>Light/Dark</button>
     </div>
   );

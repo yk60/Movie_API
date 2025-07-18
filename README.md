@@ -8,7 +8,7 @@ A full-stack movie database app built with the MERN stack, showcasing RESTful AP
 - **RESTful API:** Full CRUD, advanced search, multi-genre filtering, sorting, and pagination for movies.
 - **Modern React Frontend:** Responsive UI with dynamic routing and notifications.
 - **User Watchlists & Reviews:** Create, manage, and track watchlists and reviews per user.
-- **AI-Powered Recommendations**: Integrated with Meta Llama (via OpenRouter) to provide personalized recommendations.
+- **AI-Powered Recommendations**: Integrated Meta Llama model (via Hugging Face) to generate personalized recommendations.
 
 ## Frontend setup
 

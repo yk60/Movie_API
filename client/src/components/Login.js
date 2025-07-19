@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
@@ -19,6 +19,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -56,7 +57,12 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(parsedUser));
         setNotification("Signed in");
         setTimeout(() => {
-          navigate(-1); // navigate to last opened page
+          const from = location.state?.from?.pathname;
+          if (from === "/auth/register" || !from) {
+            navigate("/movies"); // Go to home for new users
+          } else {
+            navigate(-1); // Go back to last opened page
+          }
         }, 500);
       })
       .catch((err) => console.error(err));

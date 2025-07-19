@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useToggle } from "../useToggle";
 import { AuthContext } from "../context/AuthContext";
+import { WatchlistContext } from "../context/WatchlistContext";
 import Notification from "./Notification";
 import { RiProgress3Line } from "react-icons/ri";
 import { FaCheckCircle } from "react-icons/fa";
@@ -17,12 +18,15 @@ function Movie_detail(props) {
   const [movie, setMovie] = useState(null);
   const [draft, setDraft] = useState(null);
   const [status, setStatus] = useState("not watched");
+  const [watchlist, setWatchlist] = useState(null);
   const [editMovie, editMovieToggle] = useToggle(false);
   const [showStatus, showStatusToggle] = useToggle(false);
+  const [showSave, showSaveToggle] = useToggle(false);
 
   const navigate = useNavigate();
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
+  const { watchlists, setWatchlists } = useContext(WatchlistContext); // list of watchlist objects
 
   const getWatchStatus = () => {
     const token = localStorage.getItem("token");
@@ -55,6 +59,7 @@ function Movie_detail(props) {
         if (user && isAuthenticated) {
           getWatchStatus();
         }
+        console.log(`user's watchlsits: ${watchlists.length.toString()}`);
       })
       .catch((err) => console.error(err));
   }, [id, user, status]); // runs once or whenever id changes
@@ -138,6 +143,19 @@ function Movie_detail(props) {
       .catch((err) => console.error(err));
   };
 
+  const handleSaveMovie = () => {
+    if (user && isAuthenticated) {
+      showSaveToggle(!showSave);
+    } else {
+      alert("Log in to save the movie ");
+    }
+  };
+
+  // make post request or put request
+  const handleSaveChange = (e) => {
+    setWatchlist(e.target.value);
+  };
+
   return (
     <div className="container">
       <div className="cell2">
@@ -168,23 +186,50 @@ function Movie_detail(props) {
                 </div>
 
                 <h3 className="movie-overview">{movie.overview}</h3>
-                <div className="status-wrapper">
-                  <button className="addToListBtn" onClick={handleAddToList}>
-                    Add to List
-                  </button>
-                  {showStatus && (
-                    <div className="watch-status-dropdown">
-                      <select
-                        id="status"
-                        size="3"
-                        onChange={handleStatusChange}
-                      >
-                        <option value="not watched">Not Watched</option>
-                        <option value="in progress">In Progress</option>
-                        <option value="watched">Watched</option>
-                      </select>
-                    </div>
-                  )}
+                <div className="status-save-btns-wrapper">
+                  <div className="status-wrapper">
+                    <button className="status-btn" onClick={handleAddToList}>
+                      Status
+                    </button>
+                    {showStatus && (
+                      <div className="watch-status-dropdown">
+                        <select
+                          id="status"
+                          size="3"
+                          onChange={handleStatusChange}
+                        >
+                          <option value="not watched">Not Watched</option>
+                          <option value="in progress">In Progress</option>
+                          <option value="watched">Watched</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="save-wrapper">
+                    <button className="save-btn" onClick={handleSaveMovie}>
+                      Save
+                    </button>
+                    {showSave && (
+                      <div className="watch-list-dropdown">
+                        <select
+                          id="save"
+                          size={watchlists.length.toString()}
+                          onChange={handleSaveChange}
+                        >
+                          {watchlists.length !== 0 ? (
+                            watchlists.map((w) => (
+                              <option key={w._id} value={w.title}>
+                                {w.title}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="Empty">Empty</option>
+                          )}
+                        </select>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

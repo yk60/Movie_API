@@ -136,27 +136,40 @@
   background: #f5f5fa;
 }
 
-.status-wrapper {
+.status-save-btns-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.status-wrapper,
+.save-wrapper {
   width: 150px;
 }
-.addToListBtn {
+
+.status-btn,
+.save-btn {
   width: 100%;
 }
 
-.watch-status-dropdown select {
+.watch-status-dropdown select,
+.watch-list-dropdown select {
   width: 100%;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(108, 99, 255, 0.08);
 }
 
-.watch-status-dropdown select option {
+.watch-status-dropdown select option,
+.watch-list-dropdown select option {
   height: 20px;
   padding: 12px 8px;
   line-height: 1.4;
 }
 
 .watch-status-dropdown select option:hover,
-.watch-status-dropdown select option:focus {
+.watch-list-dropdown select option:hover,
+.watch-status-dropdown select option:focus,
+.watch-list-dropdown select option:focus {
   background-color: var(--color-primary);
   border: none;
 }

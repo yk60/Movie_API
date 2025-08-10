@@ -6,7 +6,10 @@
     "test": "jest",
     "test:frontend": "cd client && npm test",
     "test:all": "npm test && cd client && npm test",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "docker:build": "docker build -t movie-api-backend .",
+    "docker:run": "docker run -p 3000:3000 movie-api-backend",
+    "docker:dev": "docker-compose up --build"
   },
   "keywords": [],
   "author": "",

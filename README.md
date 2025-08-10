@@ -10,20 +10,24 @@ A full-stack movie database app built with the MERN stack, showcasing RESTful AP
 - **User Watchlists & Reviews:** Create, manage, and track watchlists and reviews per user.
 - **AI-Powered Recommendations**: Integrated Meta Llama model (via Hugging Face) to generate personalized recommendations.
 
-## Frontend setup
+## Local Development
 
 ```bash
-cd client
-npm install
-npm start
+docker-compose up mongo -d # Keep MongoDB running in Docker
+cd backend && npm run dev
+cd client && npm start
 ```
 
-## Backend setup
+## Docker Development
 
 ```bash
-cd backend
-npm run dev
-node server.js
+# Stop containers
+docker-compose down
+docker-compose up --build
+
+# Rebuild specific service
+docker-compose up --build client
+docker-compose up --build backend
 ```
 
 To fetch new movies (optional)

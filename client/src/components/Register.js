@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { apiCall } from "../utils/Api";
 
 import Notification from "./Notification.js";
 import "../styles/App.css";
@@ -27,29 +28,30 @@ function Register() {
     }
   }, [user, isAuthenticated]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !username || !password) {
       setError("Please fill in all fields.");
       return;
     }
-    fetch("http://localhost:3000/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, username, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          return;
-        }
-        setNotification("Account created");
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 500);
-      })
-      .catch((err) => console.error(err));
+    try {
+      const data = await apiCall("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({ name, username, password }),
+      });
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      setNotification("Account created");
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 500);
+    } catch (err) {
+      console.error(err);
+      setError("Registration failed");
+    }
     setError("");
   };
 

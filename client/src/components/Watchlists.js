@@ -2,6 +2,7 @@ import Watchlist from "./Watchlist";
 import { useEffect, useContext } from "react";
 import { WatchlistContext } from "../context/WatchlistContext";
 import { AuthContext } from "../context/AuthContext";
+import { apiCall } from "../utils/Api";
 import "../styles/Watchlist.css";
 
 function Watchlists({ moviesSaved, setMoviesSaved }) {
@@ -9,26 +10,25 @@ function Watchlists({ moviesSaved, setMoviesSaved }) {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
 
-  const getWatchlists = () => {
+  const getWatchlists = async () => {
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:3000/users/${user.userId}/watchlists/`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data) {
-          setWatchlists(data);
-          console.log(`user's watchlists: ${watchlists}`);
-        } else {
-          console.log("error fetching watchlists");
-        }
-      })
-      .catch((err) => console.error(err));
+    try {
+      const data = await apiCall(`/users/${user.userId}/watchlists/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (data) {
+        setWatchlists(data);
+        console.log(`user's watchlists: ${watchlists}`);
+      } else {
+        console.log(`user's watchlists: ${watchlists}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function Watchlists({ moviesSaved, setMoviesSaved }) {
     setMoviesSaved((prev) => prev.filter((movie) => movie._id !== id));
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!user || !isAuthenticated) {
       alert("Please sign in to create a list");
       return;
@@ -57,37 +57,29 @@ function Watchlists({ moviesSaved, setMoviesSaved }) {
         handleMovieunsave: handleMovieunsave, // You can pass a real handler if needed
       },
     ]);
-    fetch(`http://localhost:3000/watchlists/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: user.userId, title: name }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("new watchlist created in db");
-      })
-      .catch((err) => console.error(err));
+    try {
+      const data = await apiCall("/watchlists/", {
+        method: "POST",
+        body: JSON.stringify({ user: user.userId, title: name }),
+      });
+      console.log("new watchlist created in db");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const deleteList = (watchlistId) => {
-    fetch(`http://localhost:3000/watchlists/${watchlistId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ watchlistId: watchlistId }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log(`deleted list: ${watchlistId}`);
-        }
-      })
-      .then((data) => {
-        setWatchlists(watchlists.filter((w) => w._id !== watchlistId));
-      })
-      .catch((err) => console.error(err));
+  const deleteList = async (watchlistId) => {
+    try {
+      const response = await apiCall(`/watchlists/${watchlistId}`, {
+        method: "DELETE",
+        body: JSON.stringify({ watchlistId: watchlistId }),
+      });
+
+      console.log(`deleted list: ${watchlistId}`);
+      setWatchlists(watchlists.filter((w) => w._id !== watchlistId));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

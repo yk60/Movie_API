@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieList from "./MovieList";
 import { buildMoviesUrl } from "../utils/Util";
+import { apiCall } from "../utils/Api";
 import ReactPaginate from "react-paginate";
 
 // function to fetch movies based on page number + optional filters
@@ -28,17 +29,18 @@ function PaginatedMovieList({
     setSearchParams(searchParams);
   };
 
-  const fetchMovies = () => {
+  const fetchMovies = async () => {
     console.log("Fetching movies with", { query, genre, page, limit, sort });
     let url = buildMoviesUrl({ query, genre, page, limit, sort });
-    fetch("http://localhost:3000" + url)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.movies);
-        setTotalPages(data.totalPages);
-        setTotal(data.total);
-      })
-      .catch((err) => console.error(err));
+
+    try {
+      const data = await apiCall(url);
+      setMovies(data.movies);
+      setTotalPages(data.totalPages);
+      setTotal(data.total);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // build the url for API GET request

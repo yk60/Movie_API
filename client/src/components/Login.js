@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
+import { apiCall } from "../utils/Api";
 import Notification from "./Notification.js";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import "../styles/Login.css";
@@ -26,46 +27,47 @@ function Login() {
       console.log("Successfully signed in: ", user);
     }
   }, [user, isAuthenticated]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
       setError("Please enter both username and password.");
       return;
     }
     // make post request to /auth/login endpoint
-    fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          return;
+    try {
+      const data = await apiCall("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      console.log(data);
+      const parsedUser = {
+        userId: data.user.id,
+        name: data.user.name,
+        username: data.user.username,
+      };
+      setUser(parsedUser);
+      setIsAuthenticated(true);
+      // save token and user info to local storage so that refresh does not reset auth context
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(parsedUser));
+      setNotification("Signed in");
+      setTimeout(() => {
+        const from = location.state?.from?.pathname;
+        if (from === "/auth/register" || !from) {
+          navigate("/movies"); // Go to home for new users
+        } else {
+          navigate(-1); // Go back to last opened page
         }
-        console.log(data);
-        const parsedUser = {
-          userId: data.user.id,
-          name: data.user.name,
-          username: data.user.username,
-        };
-        setUser(parsedUser);
-        setIsAuthenticated(true);
-        // save token and user info to local storage so that refresh does not reset auth context
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(parsedUser));
-        setNotification("Signed in");
-        setTimeout(() => {
-          const from = location.state?.from?.pathname;
-          if (from === "/auth/register" || !from) {
-            navigate("/movies"); // Go to home for new users
-          } else {
-            navigate(-1); // Go back to last opened page
-          }
-        }, 500);
-      })
-      .catch((err) => console.error(err));
+      }, 500);
+    } catch (err) {
+      console.error(err);
+      setError("Login failed");
+    }
     setError("");
   };
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiCall } from "../utils/Api";
 
 function MovieForm(props) {
   const navigate = useNavigate();
@@ -41,22 +42,20 @@ function MovieForm(props) {
   };
 
   // add new movie to database by making a POST request
-  const handleMovieAdd = (e) => {
+  const handleMovieAdd = async (e) => {
     e.preventDefault(); // prevents form data from getting appended to url
-    fetch("http://localhost:3000/movies/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        props.setNotification("Added new movie");
-        navigate("/movies");
-        props.toggle();
-      })
-      .catch((err) => console.error(err));
+    try {
+      const data = await apiCall("/movies/", {
+        method: "POST",
+        body: JSON.stringify(formData),
+      });
+
+      props.setNotification("Added new movie");
+      navigate("/movies");
+      props.toggle();
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div>

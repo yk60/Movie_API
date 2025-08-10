@@ -42,17 +42,22 @@ const getAllMovies = async (req, res) => {
     }
 
     // sort movies
-    let sortOption = "";
-    switch (sort) {
-      case "recent":
-        sortOption = { release_date: -1 };
-        break;
-      case "alphabetical":
-        sortOption = { title: 1 };
-        break;
-      case "popularity":
-        sortOption = { popularity: -1 };
-        break;
+    let sortOption = { release_date: -1 }; // Default to recent
+
+    if (sort && typeof sort === "string" && sort.trim() !== "") {
+      switch (sort.trim()) {
+        case "recent":
+          sortOption = { release_date: -1 };
+          break;
+        case "alphabetical":
+          sortOption = { title: 1 };
+          break;
+        case "popularity":
+          sortOption = { popularity: -1 };
+          break;
+        default:
+          sortOption = { release_date: -1 };
+      }
     }
     const movies = await Movie.find(filter)
       .sort(sortOption)

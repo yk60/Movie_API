@@ -27,7 +27,7 @@ const getMovie = async (req, res) => {
 
 const getAllMovies = async (req, res) => {
   try {
-    console.log(req.query);
+    console.log("Request query:", req.query);
     const { query, genre, page, limit, sort } = req.query;
     const skip = (page - 1) * limit;
 
@@ -102,7 +102,7 @@ const deleteMovie = async (req, res) => {
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
     }
-    res.status(204).json(movie); // success with no returned content
+    res.status(200).json(movie);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

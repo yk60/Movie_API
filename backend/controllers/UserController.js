@@ -117,7 +117,7 @@ const removeMovie = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
     res.status(200).json(user);
-    console.log("succesfullu removed movie from watch history");
+    console.log("succesfully removed movie from watch history");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

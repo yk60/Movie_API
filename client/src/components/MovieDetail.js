@@ -8,6 +8,7 @@ import Notification from "./Notification";
 import { RiProgress3Line } from "react-icons/ri";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
+import { apiCall } from "../utils/Api";
 import makeRequest from "../services/LLMService";
 import Chat from "./Chat";
 import "../styles/Movie-detail.css";
@@ -18,7 +19,7 @@ function Movie_detail(props) {
   const [movie, setMovie] = useState(null);
   const [draft, setDraft] = useState(null);
   const [status, setStatus] = useState("not watched");
-  const [watchlist, setWatchlist] = useState(null);
+  const [selectedWatchlist, setSelectedWatchlist] = useState("");
   const [editMovie, editMovieToggle] = useToggle(false);
   const [showStatus, showStatusToggle] = useToggle(false);
   const [showSave, showSaveToggle] = useToggle(false);
@@ -28,43 +29,43 @@ function Movie_detail(props) {
     useContext(AuthContext);
   const { watchlists, setWatchlists } = useContext(WatchlistContext); // list of watchlist objects
 
-  const getWatchStatus = () => {
+  const getWatchStatus = async () => {
     const token = localStorage.getItem("token");
+    try {
+      const data = await apiCall(`/users/${user.userId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    fetch(`http://localhost:3000/users/${user.userId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const movie = data.watched_movies.find((m) => m.movie == id);
-        if (movie) {
-          setStatus(movie.status);
-        }
-      })
-      .catch((err) => console.error(err));
+      const movie = data.watched_movies.find((m) => m.movie == id);
+      if (movie) {
+        setStatus(movie.status);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/movies/${id}`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchMovie = async () => {
+      try {
+        const data = await apiCall(`/movies/${id}`);
         setMovie(data);
         setDraft(data); // create copy of movie data
         if (user && isAuthenticated) {
           getWatchStatus();
         }
-        console.log(`user's watchlsits: ${watchlists.length.toString()}`);
-      })
-      .catch((err) => console.error(err));
-  }, [id, user, status]); // runs once or whenever id changes
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  if (!movie) return <div>Loading...</div>;
+    fetchMovie();
+  }, [id, user, status]);
+
+  if (!movie) return <div>Page not found</div>;
 
   // access edited property from js object, then updates its value
   const handleChange = (e) => {
@@ -78,35 +79,30 @@ function Movie_detail(props) {
     setDraft(movie);
   };
 
-  const handleEditSave = () => {
-    fetch(`http://localhost:3000/movies/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(draft),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setDraft(data);
-        setMovie(data);
-        editMovieToggle();
-        props.setNotification("Saved changes");
-      })
-      .catch((err) => console.error(err));
+  const handleEditSave = async () => {
+    try {
+      const data = await apiCall(`/movies/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(draft),
+      });
+
+      setDraft(data);
+      setMovie(data);
+      editMovieToggle();
+      props.setNotification("Saved changes");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleDeleteMovie = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/movies/${id}`, {
+      await apiCall(`/movies/${id}`, {
         method: "DELETE",
       });
-      if (res.ok) {
-        props.setNotification("Deleted movie");
-        navigate("/movies");
-      } else {
-        props.setNotification("Error deleting movie");
-      }
+
+      props.setNotification("Deleted movie");
+      navigate("/movies");
     } catch (err) {
       console.error(err);
       props.setNotification("Error deleting movie");
@@ -122,25 +118,24 @@ function Movie_detail(props) {
   };
 
   // add/update/remove movie from user's watch history
-  const handleStatusChange = (e) => {
+  const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     setStatus(newStatus);
-    fetch(`http://localhost:3000/users/${user.userId}/movies/${id}`, {
-      method:
-        newStatus === "watched" || newStatus === "in progress"
-          ? "POST"
-          : "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: newStatus }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        showStatusToggle();
-        props.setNotification(`Changed watch status to ${newStatus}`);
-      })
-      .catch((err) => console.error(err));
+
+    try {
+      const data = await apiCall(`/users/${user.userId}/movies/${id}`, {
+        method:
+          newStatus === "watched" || newStatus === "in progress"
+            ? "POST"
+            : "DELETE",
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      showStatusToggle();
+      props.setNotification(`Changed watch status to ${newStatus}`);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSaveMovie = () => {
@@ -151,9 +146,41 @@ function Movie_detail(props) {
     }
   };
 
-  // make post request or put request
-  const handleSaveChange = (e) => {
-    setWatchlist(e.target.value);
+  const handleWatchlistChange = (e) => {
+    const selectedWatchlistId = e.target.value;
+    if (selectedWatchlistId && selectedWatchlistId !== "default") {
+      setSelectedWatchlist(selectedWatchlistId);
+      saveMovieToWatchlist(selectedWatchlistId);
+    }
+  };
+
+  // Save movie to selected watchlist
+  const saveMovieToWatchlist = async (watchlistId) => {
+    try {
+      // Find the watchlist name for display
+      const selectedList = watchlists.find((w) => w._id === watchlistId);
+      const watchlistName = selectedList ? selectedList.title : "Unknown";
+
+      // Make API call to add movie to watchlist
+      const data = await apiCall(`/watchlists/${watchlistId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          $push: {
+            movies_list: {
+              movie: id,
+              status: "not watched",
+            },
+          },
+        }),
+      });
+
+      // Show success notification
+      props.setNotification(`✓ Saved to "${watchlistName}"`);
+      showSaveToggle();
+    } catch (err) {
+      console.error("Error saving to watchlist:", err);
+      props.setNotification("Error saving to watchlist");
+    }
   };
 
   return (
@@ -208,18 +235,28 @@ function Movie_detail(props) {
 
                   <div className="save-wrapper">
                     <button className="save-btn" onClick={handleSaveMovie}>
-                      Save
+                      {selectedWatchlist
+                        ? `Saved to ${
+                            watchlists.find((w) => w._id === selectedWatchlist)
+                              ?.title
+                          }`
+                        : "+ Add to Watchlist"}
                     </button>
                     {showSave && (
                       <div className="watch-list-dropdown">
                         <select
                           id="save"
                           size={watchlists.length.toString()}
-                          onChange={handleSaveChange}
+                          onChange={handleWatchlistChange}
                         >
+                          <option value="default" disabled>
+                            {watchlists.length === 0
+                              ? "No watchlists available"
+                              : "Select a watchlist"}
+                          </option>
                           {watchlists.length !== 0 ? (
                             watchlists.map((w) => (
-                              <option key={w._id} value={w.title}>
+                              <option key={w._id} value={w._id}>
                                 {w.title}
                               </option>
                             ))

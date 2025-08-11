@@ -64,7 +64,9 @@ const deleteWatchlist = async (req, res) => {
     const watchlist = await Watchlist.findByIdAndDelete(watchlistId);
     if (!watchlist)
       return res.status(404).json({ error: "Watchlist not found" });
-    res.status(204).json(watchlist);
+    res
+      .status(200)
+      .json({ message: "Watchlist deleted successfully", watchlist });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
